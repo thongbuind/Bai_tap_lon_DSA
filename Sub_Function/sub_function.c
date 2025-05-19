@@ -59,58 +59,68 @@ void to_lowercase(char *str) {
 
 void add_menu(struct Menu** head, const char* name, int price, int point) {
     struct Menu* newNode = (struct Menu*)malloc(sizeof(struct Menu));
-    int i = 0;
-    while (name[i] != '\0' && i < 99) {
-        newNode->name[i] = name[i];
-        i++;
-    }
-    newNode->name[i] = '\0';
+    strncpy(newNode->name, name, 99);
+    newNode->name[99] = '\0';
     newNode->price = price;
     newNode->point = point;
     newNode->next = NULL;
 
     if (*head == NULL) {
-        *head = newNode;
-    } else {
-        struct Menu* temp = *head;
-        while (temp->next != NULL) temp = temp->next;
-        temp->next = newNode;
+        *head = (struct Menu*)malloc(sizeof(struct Menu));
+        (*head)->next = NULL;
+        (*head)->name[0] = '\0';
+        (*head)->price = 0;
+        (*head)->point = 0;
     }
+
+    struct Menu* temp = *head;
+    while (temp->next != NULL) {
+        temp = temp->next;
+    }
+    temp->next = newNode;
 }
+
 struct Menu* init_menu(void) {
-    struct Menu* head = NULL;
+    struct Menu* head = (struct Menu*)malloc(sizeof(struct Menu));
+    head->next = NULL;
+    head->name[0] = '\0';
+    head->price = 0;
+    head->point = 0;
 
     // Khai vị
-    add_menu(&head, "Goi cuon", 300000, 15);        // Nhẹ nhàng, tươi mát
-    add_menu(&head, "Salad ca hoi", 300000, 21);    // Nhẹ nhàng, tươi mát
-    add_menu(&head, "Tempura tom", 300000, 29);     // Hương đậm đà
-    add_menu(&head, "Cha gio", 300000, 34);         // Hương đậm đà
-    add_menu(&head, "Banh kimchi", 300000, 39);     // Hương đậm đà
+    add_menu(&head, "goi cuon", 300000, 15);        // Nhẹ nhàng, tươi mát
+    add_menu(&head, "salad", 300000, 21);           // Nhẹ nhàng, tươi mát
+    add_menu(&head, "tempura tom", 300000, 29);     // Hương đậm đà
+    add_menu(&head, "cha gio", 300000, 34);         // Hương đậm đà
+    add_menu(&head, "banh kimchi", 300000, 39);     // Hương đậm đà
     // Món chính
-    add_menu(&head, "Mi hai san", 300000, 41);      // Thanh nhẹ, tinh tế
-    add_menu(&head, "Ca hoi teriyaki", 300000, 54); // Thanh nhẹ, tinh tế
-    add_menu(&head, "Tom nuong", 300000, 62);       // Đậm đà, no lâu
-    add_menu(&head, "Pho bo", 300000, 70);          // Đậm đà, no lâu
-    add_menu(&head, "Bo bit tet", 300000, 81);      // Đậm đà, no lâu
-
+    add_menu(&head, "mi hai san", 300000, 41);      // Thanh nhẹ, tinh tế
+    add_menu(&head, "sushi", 300000, 54);           // Thanh nhẹ, tinh tế
+    add_menu(&head, "tom nuong", 300000, 62);       // Đậm đà, no lâu
+    add_menu(&head, "pho bo", 300000, 70);          // Đậm đà, no lâu
+    add_menu(&head, "bit tet", 300000, 81);         // Đậm đà, no lâu
     // Tráng miệng
-    add_menu(&head, "Sorbet chanh", 300000, 9);     // Ngọt nhẹ, giải nhiệt
-    add_menu(&head, "Che Thai", 300000, 12);        // Ngọt nhẹ, giải nhiệt
-    add_menu(&head, "Bingsu dau", 300000, 15);      // Beo ngậy, đậm vị
-    add_menu(&head, "Tiramisu", 300000, 18);        // Beo ngậy, đậm vị
-    add_menu(&head, "Kem matcha", 300000, 22);      // Beo ngậy, đậm vị
-
+    add_menu(&head, "kem chanh", 300000, 9);        // Ngọt nhẹ, giải nhiệt
+    add_menu(&head, "che Thai", 300000, 12);        // Ngọt nhẹ, giải nhiệt
+    add_menu(&head, "bingsu hoa qua", 300000, 15);  // Béo ngậy, đậm vị
+    add_menu(&head, "kem match", 300000, 18);       // Béo ngậy, đậm vị
+    add_menu(&head, "tiramisu", 300000, 22);        // Béo ngậy, đậm vị
     // Combo
-    add_menu(&head, "Combo 2 nguoi", 1500000, 100);
-    add_menu(&head, "Combo 3 nguoi", 2300000, 100);
-    add_menu(&head, "Combo 5 nguoi", 3500000, 100);
-    
+    add_menu(&head, "combo 2 nguoi", 1500000, 100);
+    add_menu(&head, "combo 3 nguoi", 2300000, 100);
+    add_menu(&head, "combo 5 nguoi", 3500000, 100);
+
     return head;
 }
 
 struct Table* init_restaurant(void) {
-    struct Table* head = NULL;
-    struct Table* current = NULL;
+    struct Table* head = (struct Table*)malloc(sizeof(struct Table));
+    head->id = 0;
+    head->status = 0;
+    head->bill = NULL;
+    head->next = NULL;
+
+    struct Table* current = head;
 
     for (int i = 1; i <= 10; i++) {
         struct Table* newTable = (struct Table*)malloc(sizeof(struct Table));
@@ -119,23 +129,21 @@ struct Table* init_restaurant(void) {
         newTable->bill = NULL;
         newTable->next = NULL;
 
-        if (head == NULL) {
-            head = newTable;
-        } else {
-            current->next = newTable;
-        }
+        current->next = newTable;
         current = newTable;
     }
-    
+
     return head;
 }
 
 struct Table* search_table(struct Table* restaurant, int id) {
-    while (restaurant != NULL) {
-        if (restaurant->id == id) {
-            return restaurant;
+    if (restaurant == NULL) return NULL;
+    struct Table* current = restaurant->next;
+    while (current != NULL) {
+        if (current->id == id) {
+            return current;
         }
-        restaurant = restaurant->next;
+        current = current->next;
     }
     return NULL;
 }
@@ -314,39 +322,28 @@ void xoa_mon_an_khoi_menu(struct Menu* menu) {
 
 void push_to_top_seller_list(struct Top_seller** head, char* name, int quantity) {
     if (*head == NULL) {
-        struct Top_seller* newNode = (struct Top_seller*)malloc(sizeof(struct Top_seller));
-        strncpy(newNode->name, name, 99);
-        newNode->name[99] = '\0';
-        newNode->quantity = quantity;
-        newNode->next = NULL;
-        *head = newNode;
-        return;
-    }
+            *head = (struct Top_seller*)malloc(sizeof(struct Top_seller));
+            if (*head == NULL) return;
+            (*head)->name[0] = '\0';
+            (*head)->quantity = 0;
+            (*head)->next = NULL;
+        }
 
-    struct Top_seller* current = *head;
-    struct Top_seller* prev = NULL;
+    struct Top_seller* prev = *head;
+    struct Top_seller* current = (*head)->next;
     while (current != NULL) {
         if (strcmp(current->name, name) == 0) {
             current->quantity += quantity;
+            prev->next = current->next;
 
-            if (prev != NULL && current->quantity > prev->quantity) {
-                prev->next = current->next;
-
-                struct Top_seller* insert_prev = NULL;
-                struct Top_seller* insert_curr = *head;
-                while (insert_curr != NULL && insert_curr->quantity > current->quantity) {
-                    insert_prev = insert_curr;
-                    insert_curr = insert_curr->next;
-                }
-
-                if (insert_prev == NULL) {
-                    current->next = *head;
-                    *head = current;
-                } else {
-                    insert_prev->next = current;
-                    current->next = insert_curr;
-                }
+            struct Top_seller* insert_prev = *head;
+            struct Top_seller* insert_curr = (*head)->next;
+            while (insert_curr != NULL && insert_curr->quantity > current->quantity) {
+                insert_prev = insert_curr;
+                insert_curr = insert_curr->next;
             }
+            insert_prev->next = current;
+            current->next = insert_curr;
             return;
         }
         prev = current;
@@ -354,24 +351,20 @@ void push_to_top_seller_list(struct Top_seller** head, char* name, int quantity)
     }
 
     struct Top_seller* newNode = (struct Top_seller*)malloc(sizeof(struct Top_seller));
+    if (newNode == NULL) return;
     strncpy(newNode->name, name, 99);
     newNode->name[99] = '\0';
     newNode->quantity = quantity;
     newNode->next = NULL;
-    prev = NULL;
-    current = *head;
+
+    prev = *head;
+    current = (*head)->next;
     while (current != NULL && current->quantity > newNode->quantity) {
         prev = current;
         current = current->next;
     }
-
-    if (prev == NULL) {
-        newNode->next = *head;
-        *head = newNode;
-    } else {
-        prev->next = newNode;
-        newNode->next = current;
-    }
+    prev->next = newNode;
+    newNode->next = current;
 }
 
 int get_point(struct Menu* menu, char name[100]) {
@@ -380,174 +373,6 @@ int get_point(struct Menu* menu, char name[100]) {
         return result->point;
     }
     return -1;
-}
-
-void tinh_nang_goi_y(struct Table* table, struct Menu* menu) {
-    struct Bill* bill = table->bill;
-    struct Dish_ordered* listDish = bill->listDish;
-    int nums_customers = listDish->quantity;
-    int nums_dish = 0;
-    int total_point = 0;
-    struct Dish_ordered* ptr = listDish->next;
-    char reason[300];
-    char result[100];
-    
-    while (ptr != NULL) {
-        nums_dish++;
-        total_point += get_point(menu, ptr->name);
-        ptr = ptr->next;
-    }
-    if (nums_customers == 1) {
-        if (nums_dish == 3) {
-            // Nếu đã gọi 3 món: Cộng tổng point của 3 món đã gọi
-                // Nếu tổng point bé hơn 100 tức là chưa có món chính, tìm 1 món chính gần nhất với 100 - point (món chính là món có point >40). reason = "Vì bạn chưa có món chính, nên chúng tôi sẽ đề xuất 1 món chính phù hợp để đảm bảo sự hoàn thiện của bữa ăn"
-            if (total_point < 100) {
-                int min_diff = 100 - total_point;
-                    int smallest_diff = 1000;
-                    struct Menu* m = menu;
-                    char temp_result[100] = "";
-                    while (m != NULL) {
-                        if (m->point > 40) {
-                            int diff = abs(m->point - min_diff);
-                            if (diff < smallest_diff) {
-                                smallest_diff = diff;
-                                strcpy(temp_result, m->name);
-                            }
-                        }
-                        m = m->next;
-                    }
-                strcpy(result, temp_result);
-                strcpy(reason, "Vì bạn chưa có món chính, nên chúng tôi sẽ đề xuất 1 món chính phù hợp để đảm bảo sự hoàn thiện của bữa ăn.");
-            } else {
-                // Nếu tổng point lớn hơn 100, tìm món có point thấp nhất. reason = "bạn đã có 3 món ăn là là đầy đặn, nếu bạn muốn gọi thêm 1 món nữa, chúng tôi đề xuất một món khá là nhẹ nhàng"
-                int min_point = 1000;
-                struct Menu* m = menu;
-                while (m != NULL) {
-                    if (m->point < min_point) {
-                        min_point = m->point;
-                        strcpy(result, m->name);
-                    }
-                    m = m->next;
-                }
-                strcpy(reason, "Bạn đã có 3 món ăn đầy đặn, nếu muốn gọi thêm, chúng tôi đề xuất một món khá là nhẹ nhàng.");
-            }
-        } else if (nums_dish == 2) {
-            // Nếu đã gọi 2 món: Vẫn tính tổng point như trên, tìm món gần nhất với 100 - point. Kết qủa là tên 1 món ăn đó.
-            // reason: "vì bạn đã gọi 2 món nên chúng tôi đề xuất thêm 1 món thứ 3 để đảm bảo sự hoàn thiện của bữa ăn."
-            int target = 100 - total_point;
-            struct Menu* m = menu;
-            int min_diff = 1000;
-            char temp_result[100] = "";
-            while (m != NULL) {
-                int diff = abs(m->point - target);
-                if (diff < min_diff) {
-                    min_diff = diff;
-                    strcpy(temp_result, m->name);
-                }
-                m = m->next;
-            }
-            strcpy(result, temp_result);
-            strcpy(reason, "Vì bạn đã gọi 2 món nên chúng tôi đề xuất thêm 1 món thứ 3 để đảm bảo sự hoàn thiện của bữa ăn.");
-        } else if (nums_dish == 1) {
-            // Nếu đã gọi 1 món: Tính 100 - point, dùng 2 vòng lặp lồng nhau để tìm tổ hợp các món có tổng gần nhất với 100 - point. Kết quả là tên 2 món đó
-                // Nếu point >=40, reason là "vì bạn đã gọi một món chính khá đậm đà, no lâu nên chúng tôi đề xuất món khai vị và tráng miện như sau"
-                // Nếu point <40, reason là "Vì bạn chưa gọi món chính nên chúng tôi để xuất thêm 1 món chính và 1 món ăn kèm, nó sẽ kết hợp cùng món bạn đã gọi để đảm bảo sự hài hoàm cân đối cho bữa ăn".
-            int best_point = 100 - total_point;
-            struct Menu* m = menu;
-            char dish1[100], dish2[100];
-            int tmp = 1000;
-            while (m != NULL) {
-                int p1 = m->point;
-                struct Menu* m2 = menu;
-                while (m2 != NULL) {
-                    int p2 = m2->point;
-                    int sum = p1 + p2;
-                    if (abs(best_point - sum) < tmp) {
-                        strcpy(dish1, m->name);
-                        strcpy(dish2, m2->name);
-                        tmp = abs(best_point - sum);
-                    }
-                    m2 = m2->next;
-                }
-                m = m->next;
-            }
-            snprintf(result, sizeof(result), "%s và %s", dish1, dish2);
-            if (total_point >= 40) {
-                strcpy(reason, "Vì bạn đã gọi một món chính khá đậm đà, no lâu nên chúng tôi đề xuất món khai vị và tráng miệng như sau.");
-            } else {
-                strcpy(reason, "Vì bạn chưa gọi món chính nên chúng tôi đề xuất thêm 1 món chính và 1 món ăn kèm để bữa ăn hoàn thiện.");
-            }
-        } else if (nums_dish == 0) {
-            // Nếu đã gọi 0 món: Món đầu chọn món Best_Seller, 2 món còn lại tìm như trên như nums_dish == 1. Kết quả là tên 3 món đó
-            // reason: "Vì bạn chưa biết nên ăn gì ở cửa hàng chúng tôi, nên chúng tôi đề xuất 1 món là bestseller của quán, đi kèm là 2 món ăn phù hợp."
-            // Lấy món Best_Seller
-//            char* bestseller = get_bestseller(menu);
-//            int point_best = get_point(menu, bestseller);
-//            int remaining = 100 - point_best;
-            // vì chưa viết hàm get_bestseller nên tôi lấy giá tị giả, đừng quan tâm đến nó
-            char bestseller[100] = "Mi hai san";
-            int point_bestseller = 47;
-            int remaining = 100 - point_bestseller;
-            
-            // Tìm 2 món khác sao cho tổng gần nhất với remaining
-            int best_point = 0;
-            char dish1[100], dish2[100];
-            struct Menu* m1 = menu;
-            while (m1 != NULL) {
-                int p1 = m1->point;
-                struct Menu* m2 = menu;
-                while (m2 != NULL) {
-                    int p2 = m2->point;
-                    if ((p1 + p2 <= remaining) && (p1 + p2 > best_point) && strcmp(m1->name, bestseller) != 0 && strcmp(m2->name, bestseller) != 0) {
-                        best_point = p1 + p2;
-                        strcpy(dish1, m1->name);
-                        strcpy(dish2, m2->name);
-                    }
-                    m2 = m2->next;
-                }
-                m1 = m1->next;
-            }
-            
-            // Kết quả gợi ý
-            snprintf(result, sizeof(result), "%s, %s, %s", bestseller, dish1, dish2);
-            strcpy(reason, "Vì bạn chưa gọi món nào, nên chúng tôi đề xuất 1 món Bestseller của quán, đi kèm là 2 món khai vị và tráng miệng phù hợp.");
-        }
-
-        // In khung kết quả
-        inKhungGoiY(reason, result);
-    } else {
-        // Ứng dụng thuật toán tham lam
-        int current = nums_customers;
-        int combo5 = current / 5;
-        int remain = current % 5;
-        int combo3 = 0, combo2 = 0;
-        while (combo5 >= 0) {
-            remain = current - combo5 * 5;
-            combo3 = remain / 3;
-            remain %= 3;
-
-            if (remain % 2 == 0) {
-                combo2 = remain / 2;
-                printf("╔════════════════════════════════════════════════════╗\n");
-                inDongGiua("GỢI Ý GỌI MÓN");
-                printf("╠════════════════════════════════════════════════════╣\n");
-                printf("║ Vì bạn đi theo nhóm %2d người nên chúng tôi có gợi  ║\n", nums_customers);
-                printf("║ ý các Combo sau:                                   ║\n");
-                if (combo5 > 0) {
-                    printf("║      - %2d Combo 5 người %-24s ║\n", combo5, (combo3 > 0 || combo2 > 0) ? "và" : "");
-                }
-                if (combo3 > 0) {
-                    printf("║      - %2d Combo 3 người %-24s ║\n", combo3, combo2 > 0 ? "và" : "");
-                }
-                if (combo2 > 0) {
-                    printf("║      - %2d Combo 2 người                            ║\n", combo2);
-                }
-                printf("╚════════════════════════════════════════════════════╝\n");
-                return;
-            }
-            combo5--;
-        }
-    }
 }
 
 void free_restaurant(struct Table* restaurant) {

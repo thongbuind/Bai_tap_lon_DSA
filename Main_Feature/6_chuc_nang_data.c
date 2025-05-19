@@ -1,6 +1,5 @@
 #include "6_chuc_nang_data.h"
 
-// Hàm in dữ liệu thống kê
 void inDuLieuThongKe(struct Top_seller* top_seller, struct Bill* listBill, int totalRevenue) {
     int totalBill = 0;
     int totalCustomers = 0;
@@ -13,15 +12,17 @@ void inDuLieuThongKe(struct Top_seller* top_seller, struct Bill* listBill, int t
         }
         ptr = ptr->next;
     }
+
     // Tính trung bình khách/bill
     double avgCustomersPerBill = (totalBill == 0) ? 0 : (double)totalCustomers / totalBill;
-    // Tìm top 3 món bán chạy
-    struct Top_seller* top[3] = {NULL, NULL, NULL};
+
+    // Tìm top 5 món bán chạy
+    struct Top_seller* top[5] = {NULL, NULL, NULL, NULL, NULL};
     struct Top_seller* current = top_seller->next;
     while (current != NULL) {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 5; i++) {
             if (top[i] == NULL || current->quantity > top[i]->quantity) {
-                for (int j = 2; j > i; j--) {
+                for (int j = 4; j > i; j--) {
                     top[j] = top[j - 1];
                 }
                 top[i] = current;
@@ -30,6 +31,7 @@ void inDuLieuThongKe(struct Top_seller* top_seller, struct Bill* listBill, int t
         }
         current = current->next;
     }
+
     // In thống kê
     printf("╔════════════════════════════════════════════════════╗\n");
     inDongGiua("THỐNG KÊ DOANH THU");
@@ -38,21 +40,19 @@ void inDuLieuThongKe(struct Top_seller* top_seller, struct Bill* listBill, int t
     printf("║ Tổng số lượng khách: %-29d ║\n", totalCustomers);
     printf("║ Trung bình khách/bill: %-27.2f ║\n", avgCustomersPerBill);
     printf("║ Tổng doanh thu: %-34d ║\n", totalRevenue);
-    
+
     if (top_seller->next == NULL) {
         printf("║ Không có món bán chạy nào.                         ║\n");
     } else {
-        printf("║ Top 5 món bán chạy nhất:                           ║\n");
         for (int i = 0; i < 5; i++) {
             if (top[i] != NULL) {
-                printf("║ Top %d: %-15s SL: %-23d ║\n",
+                printf("║ Top %d: %-15s SL: %-24d ║\n",
                        i + 1, top[i]->name, top[i]->quantity);
             }
         }
     }
     printf("╚════════════════════════════════════════════════════╝\n");
 }
-
 void inQuanLyNhanVien(struct Staff* staffList) {
     printf("╔════════════════════════════════════════════════════╗\n");
     inDongGiua("QUẢN LÝ NHÂN VIÊN");

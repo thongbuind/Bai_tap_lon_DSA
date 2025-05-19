@@ -1,6 +1,7 @@
 #ifndef SUB_FUNCTION_H
 #define SUB_FUNCTION_H
 
+#include "tinh_nang_goi_y.h"
 #include "data_structure.h"
 #include "interface.h"
 #include <stdio.h>
@@ -28,7 +29,6 @@ void xoa_mon_an_khoi_menu(struct Menu* menu);
 void push_to_top_seller_list(struct Top_seller** head, char* name, int quantity);
 
 int get_point(struct Menu* menu, char name[100]);
-void tinh_nang_goi_y(struct Table* table, struct Menu* menu);
 
 void free_restaurant(struct Table* restaurant);
 void free_menu(struct Menu* menu);
