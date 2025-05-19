@@ -88,7 +88,7 @@ void interface_sua_hoa_don(int table_id) {
 }
 
 void inMenu(struct Menu* menu) {
-    struct Menu* current = menu;
+    struct Menu* current = menu->next;
     printf("╔════════════════════════════════════════════════════╗\n");
     printf("║                       MENU                         ║\n");
     printf("╠════════════════════════════════════════════════════╣\n");
@@ -185,7 +185,8 @@ void interface_quan_ly(void) {
     printf("╠════════════════════════════════════════════════════╣\n");
     printf("║ 1. Dữ liệu thống kê                                ║\n");
     printf("║ 2. Quản lý nhân viên                               ║\n");
-    printf("║ 3. Thoát.                                          ║\n");
+    printf("║ 3. Quản lý hoá đơn                                 ║\n");
+    printf("║ 4. Thoát.                                          ║\n");
     printf("╚════════════════════════════════════════════════════╝\n");
     printf("Nhập lựa chọn: ");
 }

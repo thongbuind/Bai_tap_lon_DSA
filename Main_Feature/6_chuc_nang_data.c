@@ -81,6 +81,9 @@ void chuc_nang_data(struct Table* restaurant, struct Menu* menu, struct Staff* t
             inQuanLyNhanVien(staffList);
             break;
         } else if (choice == 3) {
+            inThongBao("Comming soon ...");
+            break;
+        } else if (choice == 4) {
             break;
         } else {
             inThongBao("Lựa chọn không hợp lệ, vui lòng chọn lại!");
