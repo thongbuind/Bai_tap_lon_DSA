@@ -87,7 +87,7 @@ struct Menu* init_menu(void) {
     add_menu(&head, "Cha gio", 300000, 34);         // Hương đậm đà
     add_menu(&head, "Banh kimchi", 300000, 39);     // Hương đậm đà
     // Món chính
-    add_menu(&head, "Mi hai san", 300000, 47);      // Thanh nhẹ, tinh tế
+    add_menu(&head, "Mi hai san", 300000, 41);      // Thanh nhẹ, tinh tế
     add_menu(&head, "Ca hoi teriyaki", 300000, 54); // Thanh nhẹ, tinh tế
     add_menu(&head, "Tom nuong", 300000, 62);       // Đậm đà, no lâu
     add_menu(&head, "Pho bo", 300000, 70);          // Đậm đà, no lâu
@@ -547,5 +547,65 @@ void tinh_nang_goi_y(struct Table* table, struct Menu* menu) {
             }
             combo5--;
         }
+    }
+}
+
+void free_restaurant(struct Table* restaurant) {
+    struct Table* current = restaurant;
+    while (current != NULL) {
+        struct Table* temp = current;
+        current = current->next;
+        if (temp->bill != NULL) {
+            struct Dish_ordered* dish = temp->bill->listDish;
+            while (dish != NULL) {
+                struct Dish_ordered* dish_temp = dish;
+                dish = dish->next;
+                free(dish_temp);
+            }
+            free(temp->bill);
+        }
+        free(temp);
+    }
+}
+
+void free_menu(struct Menu* menu) {
+    struct Menu* current = menu;
+    while (current != NULL) {
+        struct Menu* temp = current;
+        current = current->next;
+        free(temp);
+    }
+}
+
+void free_top_seller(struct Top_seller* top_seller) {
+    struct Top_seller* current = top_seller;
+    while (current != NULL) {
+        struct Top_seller* temp = current;
+        current = current->next;
+        free(temp);
+    }
+}
+
+void free_staff(struct Staff* listStaff) {
+    struct Staff* current = listStaff;
+    while (current != NULL) {
+        struct Staff* temp = current;
+        current = current->next;
+        free(temp);
+    }
+}
+
+void free_bill(struct Bill* listBill) {
+    struct Bill* current = listBill;
+    while (current != NULL) {
+        struct Bill* temp = current;
+        current = current->next;
+        struct Dish_ordered* dish = temp->listDish;
+        while (dish != NULL) {
+            struct Dish_ordered* dish_temp = dish;
+            dish = dish->next;
+            free(dish_temp);
+        }
+        free(temp);
     }
 }

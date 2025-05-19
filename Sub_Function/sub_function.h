@@ -30,4 +30,10 @@ void push_to_top_seller_list(struct Top_seller** head, char* name, int quantity)
 int get_point(struct Menu* menu, char name[100]);
 void tinh_nang_goi_y(struct Table* table, struct Menu* menu);
 
+void free_restaurant(struct Table* restaurant);
+void free_menu(struct Menu* menu);
+void free_top_seller(struct Top_seller* top_seller);
+void free_staff(struct Staff* listStaff);
+void free_bill(struct Bill* listBill);
+
 #endif

@@ -13,67 +13,6 @@
 #include <string.h>
 #include <ctype.h>
 
-// Hàm giải phóng bộ nhớ
-void free_restaurant(struct Table* restaurant) {
-    struct Table* current = restaurant;
-    while (current != NULL) {
-        struct Table* temp = current;
-        current = current->next;
-        if (temp->bill != NULL) {
-            struct Dish_ordered* dish = temp->bill->listDish;
-            while (dish != NULL) {
-                struct Dish_ordered* dish_temp = dish;
-                dish = dish->next;
-                free(dish_temp);
-            }
-            free(temp->bill);
-        }
-        free(temp);
-    }
-}
-
-void free_menu(struct Menu* menu) {
-    struct Menu* current = menu;
-    while (current != NULL) {
-        struct Menu* temp = current;
-        current = current->next;
-        free(temp);
-    }
-}
-
-void free_top_seller(struct Top_seller* top_seller) {
-    struct Top_seller* current = top_seller;
-    while (current != NULL) {
-        struct Top_seller* temp = current;
-        current = current->next;
-        free(temp);
-    }
-}
-
-void free_staff(struct Staff* listStaff) {
-    struct Staff* current = listStaff;
-    while (current != NULL) {
-        struct Staff* temp = current;
-        current = current->next;
-        free(temp);
-    }
-}
-
-void free_bill(struct Bill* listBill) {
-    struct Bill* current = listBill;
-    while (current != NULL) {
-        struct Bill* temp = current;
-        current = current->next;
-        struct Dish_ordered* dish = temp->listDish;
-        while (dish != NULL) {
-            struct Dish_ordered* dish_temp = dish;
-            dish = dish->next;
-            free(dish_temp);
-        }
-        free(temp);
-    }
-}
-
 int main(void) {
     struct Table* restaurant = init_restaurant();
     struct Menu* menu = init_menu();
