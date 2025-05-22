@@ -9,7 +9,29 @@ int is_dish_ordered(struct Dish_ordered* listDish, const char* name) {
     return 0;
 }
 
-void tinh_nang_goi_y(struct Table* table, struct Menu* menu) {
+struct Top_seller* get_bestseller(struct Top_seller* top_seller) {
+    return top_seller->next;
+}
+
+void inKetQuaGoiY(int nums_customers, int combo5, int combo3, int combo2) {
+    printf("╔════════════════════════════════════════════════════╗\n");
+    inDongGiua("GỢI Ý GỌI MÓN");
+    printf("╠════════════════════════════════════════════════════╣\n");
+    printf("║ Vì bạn đi theo nhóm %2d người nên chúng tôi có gợi  ║\n", nums_customers);
+    printf("║ ý các Combo sau:                                   ║\n");
+    if (combo5 > 0) {
+        printf("║      - %2d Combo 5 người %-24s ║\n", combo5, (combo3 > 0 || combo2 > 0) ? "và" : "");
+    }
+    if (combo3 > 0) {
+        printf("║      - %2d Combo 3 người %-24s ║\n", combo3, combo2 > 0 ? "và" : "");
+    }
+    if (combo2 > 0) {
+        printf("║      - %2d Combo 2 người                            ║\n", combo2);
+    }
+    printf("╚════════════════════════════════════════════════════╝\n");
+}
+
+void tinh_nang_goi_y(struct Table* table, struct Menu* menu, struct Top_seller* top_seller) {
     struct Bill* bill = table->bill;
     struct Dish_ordered* listDish = bill->listDish;
     int nums_customers = listDish->quantity;
@@ -112,12 +134,8 @@ void tinh_nang_goi_y(struct Table* table, struct Menu* menu) {
             // Nếu đã gọi 0 món: Món đầu chọn món Best_Seller, 2 món còn lại tìm như trên như nums_dish == 1. Kết quả là tên 3 món đó
             // reason: "Vì bạn chưa biết nên ăn gì ở cửa hàng chúng tôi, nên chúng tôi đề xuất 1 món là bestseller của quán, đi kèm là 2 món ăn phù hợp."
             // Lấy món Best_Seller
-//            char* bestseller = get_bestseller(menu);
-//            int point_best = get_point(menu, bestseller);
-//            int remaining = 100 - point_best;
-            // vì chưa viết hàm get_bestseller nên tôi lấy giá tị giả, đừng quan tâm đến nó
-            char bestseller[100] = "Mi hai san";
-            int point_bestseller = 47;
+            struct Top_seller* bestseller = get_bestseller(top_seller);
+            int point_bestseller = get_point(menu, bestseller->name);
             int remaining = 100 - point_bestseller;
             
             // Tìm 2 món khác sao cho tổng gần nhất với remaining
@@ -129,7 +147,7 @@ void tinh_nang_goi_y(struct Table* table, struct Menu* menu) {
                 struct Menu* m2 = menu;
                 while (m2 != NULL) {
                     int p2 = m2->point;
-                    if ((p1 + p2 <= remaining) && (p1 + p2 > best_point) && strcmp(m1->name, bestseller) != 0 && strcmp(m2->name, bestseller) != 0 && !is_dish_ordered(listDish, m1->name) && !is_dish_ordered(listDish, m2->name)) {
+                    if ((p1 + p2 <= remaining) && (p1 + p2 > best_point) && strcmp(m1->name, bestseller->name) != 0 && strcmp(m2->name, bestseller->name) != 0 && !is_dish_ordered(listDish, m1->name) && !is_dish_ordered(listDish, m2->name)) {
                         best_point = p1 + p2;
                         strcpy(dish1, m1->name);
                         strcpy(dish2, m2->name);
@@ -140,7 +158,7 @@ void tinh_nang_goi_y(struct Table* table, struct Menu* menu) {
             }
             
             // Kết quả gợi ý
-            snprintf(result, sizeof(result), "%s, %s, %s", bestseller, dish1, dish2);
+            snprintf(result, sizeof(result), "%s, %s, %s", bestseller->name, dish1, dish2);
             strcpy(reason, "Vì bạn chưa gọi món nào, nên chúng tôi đề xuất 1 món Bestseller của quán, đi kèm là 2 món khai vị và tráng miệng phù hợp.");
         }
 
@@ -152,6 +170,13 @@ void tinh_nang_goi_y(struct Table* table, struct Menu* menu) {
         int combo5 = current / 5;
         int remain = current % 5;
         int combo3 = 0, combo2 = 0;
+        if (nums_customers == 2 || nums_customers == 4) {
+            combo2 = nums_customers / 2;
+            inKetQuaGoiY(nums_customers, combo5, combo3, combo2);
+        } else if (nums_customers == 3) {
+            combo3 = 1;
+            inKetQuaGoiY(nums_customers, combo5, combo3, combo2);
+        }
         while (combo5 >= 0) {
             remain = current - combo5 * 5;
             combo3 = remain / 3;
@@ -159,21 +184,7 @@ void tinh_nang_goi_y(struct Table* table, struct Menu* menu) {
 
             if (remain % 2 == 0) {
                 combo2 = remain / 2;
-                printf("╔════════════════════════════════════════════════════╗\n");
-                inDongGiua("GỢI Ý GỌI MÓN");
-                printf("╠════════════════════════════════════════════════════╣\n");
-                printf("║ Vì bạn đi theo nhóm %2d người nên chúng tôi có gợi  ║\n", nums_customers);
-                printf("║ ý các Combo sau:                                   ║\n");
-                if (combo5 > 0) {
-                    printf("║      - %2d Combo 5 người %-24s ║\n", combo5, (combo3 > 0 || combo2 > 0) ? "và" : "");
-                }
-                if (combo3 > 0) {
-                    printf("║      - %2d Combo 3 người %-24s ║\n", combo3, combo2 > 0 ? "và" : "");
-                }
-                if (combo2 > 0) {
-                    printf("║      - %2d Combo 2 người                            ║\n", combo2);
-                }
-                printf("╚════════════════════════════════════════════════════╝\n");
+                inKetQuaGoiY(nums_customers, combo5, combo3, combo2);
                 return;
             }
             combo5--;

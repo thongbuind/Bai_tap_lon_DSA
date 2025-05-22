@@ -10,7 +10,7 @@ void display_dish_list(struct Bill* bill) {
     printf("╚══════════════════════════════════════════════════════╝\n");
 }
 
-void chuc_nang_sua_hoa_don(struct Table* restaurant, struct Menu* menu) {
+void chuc_nang_sua_hoa_don(struct Table* restaurant, struct Menu* menu, struct Top_seller* top_seller) {
     int table_id = 0;
     struct Table* table = NULL;
     do {
@@ -40,7 +40,7 @@ void chuc_nang_sua_hoa_don(struct Table* restaurant, struct Menu* menu) {
 
         switch (choice) {
             case 1: // Thêm món
-                order_dish(table, menu, bill);
+                order_dish(table, menu, bill, top_seller);
                 inThongBao("Thêm món thành công!");
                 break;
             case 2: // Xóa món

@@ -199,7 +199,7 @@ int sua_so_luong_mon(struct Bill* bill, char* name_dish, int quantity) {
     return 0;
 }
 
-void order_dish(struct Table* table, struct Menu* menu, struct Bill* bill) {
+void order_dish(struct Table* table, struct Menu* menu, struct Bill* bill, struct Top_seller* top_seller) {
     char name_dish[100];
     int quantity;
     int price;
@@ -210,7 +210,7 @@ void order_dish(struct Table* table, struct Menu* menu, struct Bill* bill) {
         if (strcmp(name_dish, "xong") == 0) {
             break;
         } else if (strcmp(name_dish, "goi y") == 0 || strcmp(name_dish, "goiy") == 0) {
-            tinh_nang_goi_y(table, menu);
+            tinh_nang_goi_y(table, menu, top_seller);
             continue;
         } else if (strcmp(name_dish, "menu") == 0) {
             inMenu(menu);
@@ -220,6 +220,7 @@ void order_dish(struct Table* table, struct Menu* menu, struct Bill* bill) {
         struct Menu* dish = search_dish(menu, name_dish);
         if (dish == NULL) {
             inThongBao("Món không có trong menu, vui lòng nhập lại.");
+            printf("%s", name_dish);
             continue;
         }
         price = dish->price;

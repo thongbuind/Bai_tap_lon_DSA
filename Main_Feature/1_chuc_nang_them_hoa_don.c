@@ -1,6 +1,6 @@
 #include "1_chuc_nang_them_hoa_don.h"
 
-void chuc_nang_them_hoa_don(struct Table* restaurant, struct Menu* menu) {
+void chuc_nang_them_hoa_don(struct Table* restaurant, struct Menu* menu, struct Top_seller* top_seller) {
     int table_id = 0;
     struct Table* table = NULL;
     struct Bill* bill = (struct Bill*)malloc(sizeof(struct Bill));
@@ -38,6 +38,6 @@ void chuc_nang_them_hoa_don(struct Table* restaurant, struct Menu* menu) {
     table->bill = bill;
     inThongBao("Đã thêm %d Trà đá miễn phí cho bàn %d.", nums_customers, table_id);
     
-    order_dish(table, menu, bill);
+    order_dish(table, menu, bill, top_seller);
     inThongBao("Hóa đơn bàn %d đã tạo xong, tổng tiền: %d VND", table_id, bill->totalPrice);
 }

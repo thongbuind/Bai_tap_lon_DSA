@@ -20,7 +20,7 @@ struct Table* search_table(struct Table* restaurant, int id);
 void add_dish_to_bill(struct Bill* bill, char* dishName, int price, int quantity);
 struct Menu* search_dish(struct Menu* menu, char* dishName);
 int sua_so_luong_mon(struct Bill* bill, char* name_dish, int quantity);
-void order_dish(struct Table* table, struct Menu* menu, struct Bill* bill);
+void order_dish(struct Table* table, struct Menu* menu, struct Bill* bill, struct Top_seller* top_seller);
 
 void them_mon_vao_menu(struct Menu* menu);
 void sua_gia_mon_an(struct Menu* menu);

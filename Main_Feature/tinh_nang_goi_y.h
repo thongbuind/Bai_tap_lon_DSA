@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void tinh_nang_goi_y(struct Table* table, struct Menu* menu);
+void tinh_nang_goi_y(struct Table* table, struct Menu* menu, struct Top_seller* top_seller);
 
 #endif
 

@@ -62,7 +62,7 @@ int main(void) {
                 nhap_so_nguyen(&luaChon);
                 switch (luaChon) {
                     case 1:
-                        chuc_nang_them_hoa_don(restaurant, menu);
+                        chuc_nang_them_hoa_don(restaurant, menu, top_seller);
                         break;
                     case 2:
                         inThongBao("coming soon...");

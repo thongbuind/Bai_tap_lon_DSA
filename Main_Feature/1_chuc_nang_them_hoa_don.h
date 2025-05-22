@@ -9,6 +9,6 @@
 #include <string.h>
 #include <ctype.h>
 
-void chuc_nang_them_hoa_don(struct Table* restaurant, struct Menu* menu);
+void chuc_nang_them_hoa_don(struct Table* restaurant, struct Menu* menu, struct Top_seller* top_seller);
 
 #endif
