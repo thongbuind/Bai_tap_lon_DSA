@@ -4,29 +4,17 @@
 
 ### I. Tổng quan
 
-#### 1. Cấu trúc Dữ liệu:
+#### 1. Cấu trúc dữ liệu:
 
-* Sử dụng danh sách liên kết đơn để lưu trữ.
-* Các cấu trúc có dạng như sau:
-
-  * Có 1 list **Menu** lưu trữ các món trong menu.
-  * Có 1 list **Top\_seller** lưu trữ các món đã được gọi và số lượng của chúng theo thứ tự giảm dần.
-  * Có 1 list **Staff** lưu trữ danh sách các nhân viên.
-  * Có 1 list **Bill** lưu trữ các bill đã xuất, mỗi bill gồm danh sách các món ăn, tổng tiền, tên nhân viên quản lý.
-  * Có 10 **Table** được nối tiếp với nhau trong dslk, mỗi bàn bao gồm số bàn (id), trạng thái bàn (status) và 1 con trỏ trỏ đến 1 bill trong list bill.
-  * Có một cấu trúc lưu trữ là **Dish\_ordered**, đây là 1 chuỗi các món ăn mà mỗi bàn đã order, mỗi chuỗi này sẽ nằm trong một bill.
-
-#### 2. Minh họa cấu trúc liên kết
-
-##### a) List Menu:
+##### a) Menu:
 
 ```
 ┌────┐   ┌─────┐   ┌─────┐
-│menu│ → │Món 2│ → │Món 3│ → ... → NULL
+│menu│ → │Món 1│ → │Món 2│ → ... → NULL
 └────┘   └─────┘   └─────┘
 ```
 
-##### b) List Top\_seller:
+##### b) Top\_seller:
 
 ```
 ┌──────────┐   ┌──────────┐   ┌─────────┐
@@ -34,7 +22,7 @@
 └──────────┘   └──────────┘   └─────────┘
 ```
 
-##### c) List Staff:
+##### c) Staff:
 
 ```
 ┌─────────┐   ┌───────────┐   ┌───────────┐
@@ -42,7 +30,7 @@
 └─────────┘   └───────────┘   └───────────┘
 ```
 
-##### d) List Table với Bill liên kết:
+##### d) Table
 
 ```
 ┌────────────┐   ┌────────────┐   ┌────────────┐
@@ -52,9 +40,13 @@
 └────────────┘   └────────────┘   └────────────┘
 ```
 
-##### e) List Bill và Dish\_ordered:
+##### e) Bill
 
 ```
+┌───────────────────────────────────────────────┐
+│                  listBill                     │
+└───────────────────────────────────────────────┘
+                       ↓
 ┌───────────────────────────────────────────────┐
 │ totalPrice: 0                                 │
 │ nameStaff[100]: ""                            │
@@ -84,4 +76,18 @@
                       NULL
 
 ```
+
+#### 2. Các giải thuật được sử dụng:
+
+##### a) Giải thuật tham lam: Ứng dụng trong tính năng gợi ý chọn món khi người dùng đi theo nhóm nhiều người.
+
+##### b) Brute Force: Ứng dụng trong tính năng gợi ý chọn món khi người dùng đã chọn được 1 món, thuật toán sử dụng 2 vòng lặp lồng nhau để tìm ra 2 món ăn còn lại phù hợp với món ăn đầu để gợi ý
+
+##### c) Insertion Sort: Ứng dụng trong việc thêm các món ăn vào trong top_seller
+
+
+##### d) Duyệt tuyến tính (Linear Search): Được dùng nhiều lần để tìm kiếm
+
+#### 3. Cách thức hoạt động của chương trình:
+
 
