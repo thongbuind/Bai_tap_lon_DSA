@@ -6,10 +6,11 @@
 
 | Thành viên (MSSV)       | Nhiệm vụ chính                                                                 | Các hàm cần viết                                                                                                  |
 |-------------------------|----------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
-| **Bùi Đức Thông (20234038)** | - Viết hàm `main()`  <br> - Phân chia công việc <br> - Viết comment mô tả cho từng hàm <br> - Triển khai tính năng gợi ý | hàm `main()`<br>file `tinh_nang_goi_y`                                                        |
+| **Bùi Đức Thông (20234038)** | - Viết hàm `main()`  <br> - Phân chia công việc <br> - Viết comment mô tả cho từng hàm <br> - Triển khai tính năng gợi ý | hàm `main()` <br> file `data_structure` <br>file `tinh_nang_goi_y`                                                        |
 | **Thành viên 2**        | - Viết 11 của file `interface` <br> - Tạo menu quán <br> - Viết chức năng (4)Xem menu <br> - Viết chức năng (5)Xem sơ đồ quán | file `4_chuc_nang_menu` <br> file `5_chuc_nang_xem_so_do_quan` <br> file `interface` có 11 hàm con <br> hàm `nhap_so_nguyen` <br> hàm `nhap_chuoi` <br> hàm `to_lowercase_no_accent` <br> hàm `to_lowercase` <br> hàm `add_menu` <br> hàm `init_menu` <br> hàm `init_restaurant` <br> hàm `them_mon_vao_menu` <br> hàm `sua_gia_mon_an` <br> hàm `xoa_mon_an_khoi_menu`|
-| **Thành viên 3**        | - Viết chức năng (1)Thêm hoá đơn <br> - Viết chức năng (2)Sửa hoá đơn| file `1_chuc_nang_them_hoa_don` <br> file `2_chuc_nang_sua_hoa_don` <br> hàm `search_table` <br> hàm `add_dish_to_bill` <br> hàm `search_dish` <br> hàm `sua_so_luong_mon` <br> hàm `order_dish`|
+| **Thành viên 3**        | - Viết chức năng (1)Thêm hoá đơn <br> - Viết chức năng (2)Sửa hoá đơn| file `1_chuc_nang_them_hoa_don` <br> file `2_chuc_nang_sua_hoa_don` <br> hàm `search_table` <br> hàm `add_dish_to_bill` <br> hàm `search_dish` <br> hàm `sua_so_luong_mon` <br> hàm `order_dish`                  |
 | **Thành viên 4**        | - Viết chức năng (3)Thanh toán <br> - Viết chức năng (6)Data            | file `3_chuc_nang_thanh_toan` <br> file `3_chuc_nang_thanh_toan` <br> hàm `push_to_top_seller_list` <br> hàm `get_point`|
+
 ### II. Tổng quan
 
 #### 1. Cấu trúc dữ liệu:
