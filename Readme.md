@@ -121,7 +121,7 @@ SẼ THAY TRANG NÀY THÀNH 1 TRANG BÌA ĐẸP
 - **Greedy Algorithm**: Ứng dụng để gợi ý món phù hợp cho nhóm nhiều người. Trong menu có các combo 2,3,5 người, thuật toán tham lam sẽ ưu tiên lựa chọn **Combo 5 người**, rồi đến **Combo 3 người** và cuối cùng là **Combo 2 người** sao cho tổng chúng bằng số lượng khách.
 - **Brute Force**: Sử dụng 2 vòng lặp lồng nhau để duyệt qua từng tổ hợp món và tìm ra tổ hợp phù hợp nhất. Ứng dụng khi đã có 1 món ăn và muốn gợi ý 2 món còn lại.
 - **Insertion Sort**: Được sử dụng khi thêm món vào danh sách top_seller. Thuật toán hoạt động bằng cách duyệt từ đầu đến cuối trong danh sách liên kết. Nếu món ăn chưa xuất liện trong danh sách, một `node` mới sẽ được tạo và chèn vào vị trí đúng theo thứ tự giảm dần số lượng. Insertion Sort hoạt động rất hiệu quả trong tình huống này vì danh sách liên kết đã được sắp xếp sẵn.
-- **Linear Search**: Áp dụng để tìm kiếm món ăn, bàn, nhân viên,...
+- **Linear Search**: Duyệt tuần tự từ dầu đến cuối **linked-list**. Áp dụng để tìm kiếm món ăn, bàn, nhân viên,...
 
 <div style="page-break-before: always;"></div>
 
@@ -181,6 +181,14 @@ Giao diện chính với 6 chức năng, chọn từng chức năng để làm v
 ╚════════════════════════════════════════════════════╝
 ```
 
+Chức năng này hỗ trợ 3 tuỳ chọn để chỉnh sửa `bill`:
+
+- Thêm món ăn mới: Nhập các thông tin của món ăn, tạo node mới và chèn vào cuối `bill`.
+
+- Xóa món ăn khỏi **bill**: Duyệt duyệt tuần tự trong `bill` để tìm món ăn có tên trùng khớp và xoá bằng cách gián tiếp. Lưu thông tin node tiếp theo vào 1 biến tạm, trỏ node hiện tại đến next->next, xoá next, lấy thông tin của biến tạm để cho vào node hiện tại. Nếu đã là `node` cuối rồi thì xoá là được.
+
+- Sửa số lượng món ăn trong `bill`: Duyệt tương tự và chỉnh sửa số lượng món ăn theo số lượng mới.
+
 <div style="page-break-before: always;"></div>
 
 ### 3. Chức năng Thanh toán
@@ -238,7 +246,7 @@ Chức năng này hỗ trợ 3 tuỳ chọn để chỉnh sửa **menu**:
 
 - Thêm món ăn mới: Nhập các thông tin của món ăn, tạo `node` mới và chèn vào cuối **menu**.
 - Sửa giá món ăn: Nhập **tên món ăn**, duyệt tuần tự trong **menu** để tìm món ăn có tên trùng khớp và thay đổi giá món.
-- Xóa món ăn khỏi menu: Duyệt tương tự, xoá bằng cách gián tiếp. Lưu thông tin `node` tiếp theo vào 1 biến tạm, trỏ `node` hiện tại đến `next->next`, xoá `next`, lấy thông tin của biến tạm để cho vào `node` hiện tại.
+- Xóa món ăn khỏi menu: Duyệt tương tự, xoá bằng cách gián tiếp. Lưu thông tin `node` tiếp theo vào 1 biến tạm, trỏ `node` hiện tại đến `next->next`, xoá `next`, lấy thông tin của biến tạm để cho vào `node` hiện tại. Nếu đã là `node` cuối rồi thì xoá là được.
 
 <div style="page-break-before: always;"></div>
 
