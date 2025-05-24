@@ -209,12 +209,13 @@ Ví dụ, món **Bít tết** (`point` cao, ~ 81) là món chính có hương v�
 
 #### 2. Tính năng gợi ý món ăn
 
-Tính năng gợi ý món ăn sẽ dựa trên số lượng khách trong bàn, các món khách đã gọi và danh sách món bán chạy của quán để gợi ý món ăn. Tính năng này chú trọng vào độ hài hoà của bữa ăn để gợi ý (tổng `point` ~100).
+Tính năng gợi ý món ăn sẽ dựa trên **số lượng khách** trong bàn, các **món khách đã gọi** và danh sách **món bán chạy** của quán để gợi ý món ăn. Tính năng này chú trọng vào độ hài hoà của bữa ăn để gợi ý (tổng `point` ~100).
 
 #### 2.1 Với bàn có 1 khách
 
-##### a, Nếu khách chưa gọi món nào:
-Khi này, món đầu tiên hệ thống gợi ý sẽ là món Bestseller của quán, sau đó dựa vào `point` của món đầu tiên này để chạy Brute Force tìm ra 2 món tiếp theo sao cho tổng `point` của 3 món gần nhất với 100. Dưới đây là ví dụ:
+#### a, Nếu khách chưa gọi món nào:
+
+Khi này, món đầu tiên hệ thống gợi ý sẽ là món `Bestseller` của quán, sau đó dựa vào `point` của món đầu tiên này để chạy Brute Force tìm ra 2 món tiếp theo sao cho tổng `point` của 3 món gần nhất với 100. Dưới đây là ví dụ:
 
 ```
 ╔════════════════════════════════════════════════════╗
@@ -227,27 +228,12 @@ Khi này, món đầu tiên hệ thống gợi ý sẽ là món Bestseller của
 ╚════════════════════════════════════════════════════╝
 ```
 
-##### b, Nếu khách đã gọi 1 món:
+#### b, Nếu khách đã gọi 1 món:
 
-Để hoàn thiện bữa ăn, cần gợi ý cho khách thêm 2 món nữa: 
-- Nếu `point` hiện tại >=40 tức là khách đã gọi 1 món chính, cần gợi ý thêm tráng miệng và khai vị. 
-- Còn nếu `point` <40 thì tức là khách chưa gọi món chính, cần gợi ý 1 món chính kèm thêm 1 món khác.
+Để hoàn thiện bữa ăn, cần gợi ý cho khách thêm 2 món nữa:
 
-Lúc này, hệ thống sẽ chạy 2 vòng lặp lồng nhau để xác định cặp món, kiểm tra điều kiện và đưa ra thông báo như sau:
+Nếu `point` >=40 tức là khách đã gọi 1 món chính, cần gợi ý thêm tráng miệng và khai vị. Ví dụ khách đã gọi 1 món chính là Bít tết:
 
-Trường hợp khách đã gọi 1 món khai vị là Gỏi cuốn:
-```
-╔════════════════════════════════════════════════════╗
-║                   GỢI Ý GỌI MÓN                    ║
-╠════════════════════════════════════════════════════╣
-║ Vì bạn chưa gọi món chính nên chúng tôi đề xuất    ║
-║ thêm 1 món chính và 1 món ăn kèm để bữa ăn hoàn    ║
-║ thiện.                                             ║
-║ Món gợi ý: pho bo và bingsu hoa qua                ║
-╚════════════════════════════════════════════════════╝
-```
-
-Trường hợp khách đã gọi 1 món chính là Bò bít tết:
 ```
 ╔════════════════════════════════════════════════════╗
 ║                   GỢI Ý GỌI MÓN                    ║
@@ -259,11 +245,27 @@ Trường hợp khách đã gọi 1 món chính là Bò bít tết:
 ╚════════════════════════════════════════════════════╝
 ```
 
-##### c, Nếu khách đã gọi 2 món:
+<div style="page-break-before: always;"></div>
+
+Còn nếu `point` <40 thì tức là khách chưa gọi món chính, cần gợi ý 1 món chính kèm thêm 1 món khác. Lúc này, hệ thống sẽ chạy 2 vòng lặp lồng nhau để xác định cặp món, kiểm tra điều kiện và đưa ra gợi ý. Ví dụ khách đã gọi 1 món khai vị là Gỏi cuốn:
+
+```
+╔════════════════════════════════════════════════════╗
+║                   GỢI Ý GỌI MÓN                    ║
+╠════════════════════════════════════════════════════╣
+║ Vì bạn chưa gọi món chính nên chúng tôi đề xuất    ║
+║ thêm 1 món chính và 1 món ăn kèm để bữa ăn hoàn    ║
+║ thiện.                                             ║
+║ Món gợi ý: pho bo và bingsu hoa qua                ║
+╚════════════════════════════════════════════════════╝
+```
+
+#### c, Nếu khách đã gọi 2 món:
 
 Hệ thống sẽ duyệt 1 lần toàn menu để tìm ra món có `point` gần nhất với `100 - point1 - point2`.
 
 Ví dụ khách đã gọi 2 món là Mì hải sản và Salad:
+
 ```
 ╔════════════════════════════════════════════════════╗
 ║                   GỢI Ý GỌI MÓN                    ║
@@ -274,9 +276,12 @@ Ví dụ khách đã gọi 2 món là Mì hải sản và Salad:
 ╚════════════════════════════════════════════════════╝
 ```
 
-##### d, Nếu khách đã gọi nhiều hơn 2 món:
+#### d, Nếu khách đã gọi nhiều hơn 2 món:
 
-- Nếu tổng point bé hơn 100 tức là khách vẫn chưa gọi món chính, gợi ý 1 món chính gần nhất với `100 - tong_point`. Ví dụ khách đã gọi 3 món Tiramisu, Gỏi cuốn, Kem matcha:
+Nếu tổng point bé hơn 100 tức là khách vẫn chưa gọi món chính, gợi ý 1 món chính gần nhất với `100 - tong_point`. Ví dụ khách đã gọi 3 món Tiramisu, Gỏi cuốn, Kem matcha:
+
+<div style="page-break-before: always;"></div>
+
 ```
 ╔════════════════════════════════════════════════════╗
 ║                   GỢI Ý GỌI MÓN                    ║
@@ -288,7 +293,8 @@ Ví dụ khách đã gọi 2 món là Mì hải sản và Salad:
 ╚════════════════════════════════════════════════════╝
 ```
 
-- Nếu tổng point đã lớn hơn 100, gợi ý món có point thấp nhất. Ví dụ khách đã gọi 3 món Tôm nướng, Bingsu hoa quả, Salad:
+Nếu tổng point đã lớn hơn 100, gợi ý món có point thấp nhất. Ví dụ khách đã gọi 3 món Tôm nướng, Bingsu hoa quả, Salad:
+
 ```
 ╔════════════════════════════════════════════════════╗
 ║                   GỢI Ý GỌI MÓN                    ║
@@ -313,9 +319,3 @@ Ví dụ khách đã gọi 2 món là Mì hải sản và Salad:
 ║      -  1 Combo 3 người                            ║
 ╚════════════════════════════════════════════════════╝
 ```
-
-
-
-
-
-
