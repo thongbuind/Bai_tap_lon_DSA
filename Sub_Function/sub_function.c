@@ -220,7 +220,6 @@ void order_dish(struct Table* table, struct Menu* menu, struct Bill* bill, struc
         struct Menu* dish = search_dish(menu, name_dish);
         if (dish == NULL) {
             inThongBao("Món không có trong menu, vui lòng nhập lại.");
-            printf("%s", name_dish);
             continue;
         }
         price = dish->price;

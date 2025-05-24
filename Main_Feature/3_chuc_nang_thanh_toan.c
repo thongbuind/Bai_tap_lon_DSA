@@ -63,7 +63,6 @@ void chuc_nang_thanh_toan(struct Table* restaurant, struct Menu* menu, struct To
                 struct Bill* bill = table->bill;
                 bill->next = NULL;
 
-                // Thêm bill vào listBill->next (dummy node)
                 struct Bill* ptr = listBill;
                 while (ptr->next != NULL) {
                     ptr = ptr->next;
@@ -71,11 +70,10 @@ void chuc_nang_thanh_toan(struct Table* restaurant, struct Menu* menu, struct To
                 ptr->next = bill;
                 table->bill = NULL;
 
-                // Cập nhật top_seller từ top_seller->next
                 if (bill->listDish != NULL) {
                     struct Dish_ordered* dish = bill->listDish;
                     while (dish != NULL) {
-                        push_to_top_seller_list(&(top_seller->next), dish->name, dish->quantity);
+                        push_to_top_seller_list(&(top_seller), dish->name, dish->quantity);
                         dish = dish->next;
                     }
                 }

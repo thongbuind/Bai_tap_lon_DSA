@@ -9,10 +9,6 @@ int is_dish_ordered(struct Dish_ordered* listDish, const char* name) {
     return 0;
 }
 
-struct Top_seller* get_bestseller(struct Top_seller* top_seller) {
-    return top_seller->next;
-}
-
 void inKetQuaGoiY(int nums_customers, int combo5, int combo3, int combo2) {
     printf("╔════════════════════════════════════════════════════╗\n");
     inDongGiua("GỢI Ý GỌI MÓN");
@@ -134,7 +130,7 @@ void tinh_nang_goi_y(struct Table* table, struct Menu* menu, struct Top_seller* 
             // Nếu đã gọi 0 món: Món đầu chọn món Best_Seller, 2 món còn lại tìm như trên như nums_dish == 1. Kết quả là tên 3 món đó
             // reason: "Vì bạn chưa biết nên ăn gì ở cửa hàng chúng tôi, nên chúng tôi đề xuất 1 món là bestseller của quán, đi kèm là 2 món ăn phù hợp."
             // Lấy món Best_Seller
-            struct Top_seller* bestseller = get_bestseller(top_seller);
+            struct Top_seller* bestseller = top_seller->next;
             int point_bestseller = get_point(menu, bestseller->name);
             int remaining = 100 - point_bestseller;
             
