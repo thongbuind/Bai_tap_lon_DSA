@@ -8,7 +8,7 @@ SẼ THAY TRANG NÀY THÀNH 1 TRANG BÌA ĐẸP
 
 <div style="page-break-before: always;"></div>
 
-### I. Phân chia công việc
+## I. Phân chia công việc
 
 | Thành viên (MSSV)       | Nhiệm vụ chính                                                                   | Các hàm cần viết                                                                                                |
 |-------------------------|------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
@@ -19,11 +19,11 @@ SẼ THAY TRANG NÀY THÀNH 1 TRANG BÌA ĐẸP
 
 <div style="page-break-before: always;"></div>
 
-### II. Tổng quan
+## II. Tổng quan
 
-#### 1. Cấu trúc dữ liệu
+### 1. Cấu trúc dữ liệu
 
-##### a) Menu
+#### a) Menu
 
 ```
 ┌────┐   ┌─────┐   ┌─────┐
@@ -31,7 +31,7 @@ SẼ THAY TRANG NÀY THÀNH 1 TRANG BÌA ĐẸP
 └────┘   └─────┘   └─────┘
 ```
 
-##### b) Top\_seller:
+#### b) Top\_seller:
 
 ```
 ┌──────────┐   ┌──────────┐   ┌─────────┐
@@ -39,7 +39,7 @@ SẼ THAY TRANG NÀY THÀNH 1 TRANG BÌA ĐẸP
 └──────────┘   └──────────┘   └─────────┘
 ```
 
-##### c) Staff:
+#### c) Staff:
 
 ```
 ┌─────────┐   ┌───────────┐   ┌───────────┐
@@ -47,7 +47,7 @@ SẼ THAY TRANG NÀY THÀNH 1 TRANG BÌA ĐẸP
 └─────────┘   └───────────┘   └───────────┘
 ```
 
-##### d) Table
+#### d) Table
 
 ```
 ┌────────────┐   ┌────────────┐   ┌────────────┐
@@ -61,7 +61,7 @@ SẼ THAY TRANG NÀY THÀNH 1 TRANG BÌA ĐẸP
 <div style="page-break-before: always;"></div>
 <br>
 
-##### e) Bill
+#### e) Bill
 
 ```
      ┌───────────────────────────────────────────────┐
@@ -99,7 +99,7 @@ SẼ THAY TRANG NÀY THÀNH 1 TRANG BÌA ĐẸP
 
 <div style="page-break-before: always;"></div>
 
-#### 2. Giải thuật
+### 2. Giải thuật
 
 - **Greedy Algorithm**: Ứng dụng để gợi ý món phù hợp cho nhóm nhiều người. Trong menu có các combo 2,3,5 người, thuật toán tham lam sẽ tìm ra tổ hợp combo phù hợp với số lượng khách.
 - **Brute Force**: Gợi ý món theo nhóm món ăn có liên quan, sử dụng 2 vòng lặp lồng nhau.
@@ -108,11 +108,11 @@ SẼ THAY TRANG NÀY THÀNH 1 TRANG BÌA ĐẸP
 
 <div style="page-break-before: always;"></div>
 
-### III. Chi tiết chương trình
+## III. Chi tiết chương trình
 
-#### 1. Cách thức hoạt động của chương trình
+### 1. Cách thức hoạt động của chương trình
 
-##### 1.0 Giao diện đăng nhập
+#### 1.0 Giao diện đăng nhập
 
 ```
 ╔════════════════════════════════════════════════════╗
@@ -139,35 +139,35 @@ Giao diện chính với 6 chức năng, chọn từng chức năng để làm v
 
 <div style="page-break-before: always;"></div>
 
-##### 1.1 Chức năng thêm hoá đơn
+#### 1.1 Chức năng thêm hoá đơn
 
 <div style="page-break-before: always;"></div>
 
-##### 1.2 Chức năng sửa hoá đơn
+#### 1.2 Chức năng sửa hoá đơn
 
 <div style="page-break-before: always;"></div>
 
-##### 1.3 Chức năng thanh toán
+#### 1.3 Chức năng thanh toán
 
 <div style="page-break-before: always;"></div>
 
-##### 1.4 Chức năng xem menu quán
+#### 1.4 Chức năng xem menu quán
 
 <div style="page-break-before: always;"></div>
 
-##### 1.5 Chức năng xem sơ đồ quán
+#### 1.5 Chức năng xem sơ đồ quán
 
 <div style="page-break-before: always;"></div>
 
-##### 1.6 Chức năng xem các dữ liệu của quán
+#### 1.6 Chức năng xem các dữ liệu của quán
 
 <div style="page-break-before: always;"></div>
 
-### IV. Phụ lục
+## IV. Phụ lục
 
-#### 1. Thiết kế Menu và Cấu trúc Hương vị
+### 1. Thiết kế Menu và Cấu trúc Hương vị
 
-Menu gồm đa dạng món ăn được chia thành 3 nhóm: **khai vị**, **món chính**, **tráng miệng**, với nhiều tầng hương vị và phong cách khác nhau. Mỗi món ăn được đánh giá trực quan thông qua chỉ số `Point`.
+Menu gồm đa dạng món ăn được chia thành 3 nhóm: **khai vị**, **món chính**, **tráng miệng**, với nhiều tầng hương vị và phong cách khác nhau, được đánh giá trực quan thông qua chỉ số `Point`.
 
 | **Loại món ăn** | **Tên món ăn**       | **Point** | **Giá tiền (VND)** | **Mô tả món ăn**            |
 |----------------|----------------------|-----------|--------------------|------------------------------|
@@ -207,7 +207,7 @@ Ví dụ, món **Bít tết** (`point` cao, ~ 81) là món chính có hương v�
 
 <div style="page-break-before: always;"></div>
 
-#### 2. Tính năng gợi ý món ăn
+### 2. Tính năng gợi ý món ăn
 
 Tính năng gợi ý món ăn sẽ dựa trên **số lượng khách** trong bàn, các **món khách đã gọi** và danh sách **món bán chạy** của quán để gợi ý món ăn. Tính năng này chú trọng vào độ hài hoà của bữa ăn để gợi ý (tổng `point` ~100).
 
@@ -215,7 +215,7 @@ Tính năng gợi ý món ăn sẽ dựa trên **số lượng khách** trong b�
 
 #### a, Nếu khách chưa gọi món nào:
 
-Khi này, món đầu tiên hệ thống gợi ý sẽ là món `Bestseller` của quán, sau đó dựa vào `point` của món đầu tiên này để chạy Brute Force tìm ra 2 món tiếp theo sao cho tổng `point` của 3 món gần nhất với 100. Dưới đây là ví dụ:
+Khi này, hệ thống sẽ gợi ý món `Bestseller` của quán, sau đó dựa vào `point` của món này để chạy Brute Force tìm ra 2 món tiếp theo sao cho tổng `point` của 3 món gần nhất với 100.
 
 ```
 ╔════════════════════════════════════════════════════╗
