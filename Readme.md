@@ -118,9 +118,9 @@ SẼ THAY TRANG NÀY THÀNH 1 TRANG BÌA ĐẸP
 
 ### 2. Giải thuật
 
-- **Greedy Algorithm**: Ứng dụng để gợi ý món phù hợp cho nhóm nhiều người. Trong menu có các combo 2,3,5 người, thuật toán tham lam sẽ tìm ra tổ hợp combo phù hợp với số lượng khách.
-- **Brute Force**: Gợi ý món theo nhóm món ăn có liên quan, sử dụng 2 vòng lặp lồng nhau.
-- **Insertion Sort**: Dùng khi thêm món vào danh sách top_seller.
+- **Greedy Algorithm**: Ứng dụng để gợi ý món phù hợp cho nhóm nhiều người. Trong menu có các combo 2,3,5 người, thuật toán tham lam sẽ ưu tiên lựa chọn **Combo 5 người**, rồi đến **Combo 3 người** và cuối cùng là **Combo 2 người** sao cho tổng chúng bằng số lượng khách.
+- **Brute Force**: Sử dụng 2 vòng lặp lồng nhau để duyệt qua từng tổ hợp món và tìm ra tổ hợp phù hợp nhất. Ứng dụng khi đã có 1 món ăn và muốn gợi ý 2 món còn lại.
+- **Insertion Sort**: Được sử dụng khi thêm món vào danh sách top_seller. Thuật toán hoạt động bằng cách duyệt từ đầu đến cuối trong danh sách liên kết. Nếu món ăn chưa xuất liện trong danh sách, một `node` mới sẽ được tạo và chèn vào vị trí đúng theo thứ tự giảm dần số lượng. Insertion Sort hoạt động rất hiệu quả trong tình huống này vì danh sách liên kết đã được sắp xếp sẵn.
 - **Linear Search**: Áp dụng để tìm kiếm món ăn, bàn, nhân viên,...
 
 <div style="page-break-before: always;"></div>
@@ -156,13 +156,66 @@ Giao diện chính với 6 chức năng, chọn từng chức năng để làm v
 
 ### 1. Chức năng Thêm Hoá đơn
 
-<div style="page-break-before: always;"></div>
+- **Nhập thông tin bàn và khách**: Sử dụng hai vòng lặp `while` để yêu cầu nhập:  
+    - `table_id`: Mã số bàn.  
+    - `nums_customer`: Số lượng khách.  
+
+- **Khởi tạo hoá đơn**: Tự động thêm `nums_customer` cốc **trà đá miễn phí** vào hoá đơn.  
+
+- **Nhập món ăn**: Sử dụng vòng lặp `while` để yêu cầu nhập tên món ăn, số lượng cho đến khi người dùng nhấn **'xong'**.
+
+- **Hỗ trợ khách hàng**: Nếu khách hàng phân vân, có thể nhập:  
+    - **'goi y'**: Hiển thị tính năng gợi ý chọn món (xem **Phụ lục 2**).  
+    - **'menu'**: Hiển thị toàn bộ menu.
 
 ### 2. Chức năng Sửa Hoá đơn
+
+```
+╔════════════════════════════════════════════════════╗
+║                 SỬA HOÁ ĐƠN BÀN  1                 ║
+╠════════════════════════════════════════════════════╣
+║ 1. Thêm món                                        ║
+║ 2. Xóa món                                         ║
+║ 3. Sửa số lượng món                                ║
+║ 4. Thoát                                           ║
+╚════════════════════════════════════════════════════╝
+```
 
 <div style="page-break-before: always;"></div>
 
 ### 3. Chức năng Thanh toán
+
+- **Nhập mã bàn**: Yêu cầu nhập `table_id` của bàn muốn thanh toán.  
+- Nếu bàn chưa có khách hoặc không có hóa đơn, hệ thống hiển thị:
+
+```
+╔════════════════════════════════════════════════════╗
+║ Bàn không tồn tại, trống hoặc không có hóa đơn.    ║
+╚════════════════════════════════════════════════════╝
+```
+
+- Nếu bàn đã có hóa đơn, hệ thống hiển thị thông tin hóa đơn để xác nhận:  
+
+```
+╔════════════════════════════════════════════════════╗
+║  Bàn 1 có bill: 1200000 VND                        ║
+╠═════════════════════════╦═════════╦════════════════╣
+║ Món ăn                  ║ SL      ║ Thành tiền     ║
+╠═════════════════════════╬═════════╬════════════════╣
+║ goi cuon                ║ 1       ║ 300000         ║
+║ pho bo                  ║ 2       ║ 600000         ║
+║ tiramisu                ║ 1       ║ 300000         ║
+╠═════════════════════════╩═════════╩════════════════╣
+║ Xác nhận thanh toán:                               ║
+║ 1. Xác nhận                                        ║
+║ 2. Hủy                                             ║
+╚════════════════════════════════════════════════════╝
+```
+
+- **Sau khi thanh toán**:
+  - Hóa đơn được lưu vào `listBill`.  
+  - Các món ăn được thêm vào `top_seller`.  
+  - Tổng tiền của bill sẽ được cộng dồn vào `totalRevenue`.
 
 <div style="page-break-before: always;"></div>
 
@@ -181,7 +234,11 @@ Giao diện chính với 6 chức năng, chọn từng chức năng để làm v
 ╚════════════════════════════════════════════════════╝
 ```
 
-Chức năng này hỗ trợ 3 tuỳ chọn để chỉnh sửa **menu**, 
+Chức năng này hỗ trợ 3 tuỳ chọn để chỉnh sửa **menu**:
+
+- Thêm món ăn mới: Nhập các thông tin của món ăn, tạo `node` mới và chèn vào cuối **menu**.
+- Sửa giá món ăn: Nhập **tên món ăn**, duyệt tuần tự trong **menu** để tìm món ăn có tên trùng khớp và thay đổi giá món.
+- Xóa món ăn khỏi menu: Duyệt tương tự, xoá bằng cách gián tiếp. Lưu thông tin `node` tiếp theo vào 1 biến tạm, trỏ `node` hiện tại đến `next->next`, xoá `next`, lấy thông tin của biến tạm để cho vào `node` hiện tại.
 
 <div style="page-break-before: always;"></div>
 
@@ -209,7 +266,7 @@ Chức năng này hỗ trợ 3 tuỳ chọn để chỉnh sửa **menu**,
 ╚════════════════════════════════════════════════════╝
 ```
 
-Khi chọn xem chi tiết bàn, nhân viên sẽ thấy được các thông tin sau:
+Khi chọn xem chi tiết bàn, nhân viên sẽ thấy được các thông tin ví dụ như sau:
 
 ```
 ╔═══════════════════════════╗
@@ -276,7 +333,7 @@ Khi chọn xem chi tiết bàn, nhân viên sẽ thấy được các thông tin
 Menu gồm đa dạng món ăn được chia thành 3 nhóm: **khai vị**, **món chính**, **tráng miệng**, với nhiều tầng hương vị và phong cách khác nhau, được đánh giá trực quan thông qua chỉ số `Point`.
 
 | **Loại món ăn** | **Tên món ăn**       | **Point** | **Giá tiền (VND)** | **Mô tả món ăn**            |
-|----------------|----------------------|-----------|--------------------|------------------------------|
+|--------------------|----------------------|-----------|----------------|------------------------------|
 | Khai vị        | Gỏi cuốn             | 15        | 300,000            | Nhẹ nhàng, tươi mát          |
 | Khai vị        | Salad                | 21        | 300,000            | Nhẹ nhàng, tươi mát          |
 | Khai vị        | Tempura tôm          | 29        | 300,000            | Hương đậm đà                 |
@@ -287,11 +344,6 @@ Menu gồm đa dạng món ăn được chia thành 3 nhóm: **khai vị**, **m�
 | Món chính      | Tôm nướng            | 62        | 300,000            | Đậm đà, no lâu               |
 | Món chính      | Phở bò               | 70        | 300,000            | Đậm đà, no lâu               |
 | Món chính      | Bít tết              | 81        | 300,000            | Đậm đà, no lâu               |
-
-<div style="page-break-before: always;"></div>
-
-| **Loại món ăn** | **Tên món ăn**       | **Point** | **Giá tiền (VND)** | **Mô tả món ăn**            |
-|----------------|----------------------|-----------|--------------------|------------------------------|
 | Tráng miệng    | Kem chanh            | 9         | 300,000            | Ngọt nhẹ, giải nhiệt         |
 | Tráng miệng    | Chè Thái             | 12        | 300,000            | Ngọt nhẹ, giải nhiệt         |
 | Tráng miệng    | Bingsu hoa quả       | 15        | 300,000            | Béo ngậy, đậm vị             |
