@@ -46,7 +46,7 @@ void inDuLieuThongKe(struct Top_seller* top_seller, struct Bill* listBill, int t
     } else {
         for (int i = 0; i < 5; i++) {
             if (top[i] != NULL) {
-                printf("║ Top %d: %-15s SL: %-24d ║\n",
+                printf("║ Top %d: %-15s SL: %-23.2d ║\n",
                        i + 1, top[i]->name, top[i]->quantity);
             }
         }

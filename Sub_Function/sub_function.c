@@ -57,6 +57,116 @@ void to_lowercase(char *str) {
     }
 }
 
+void initStructure(struct Top_seller** top_seller, struct Staff** listStaff, struct Bill** listBill, struct Table** restaurant, struct Menu** menu) {
+    
+    *top_seller = (struct Top_seller*)malloc(sizeof(struct Top_seller));
+    (*top_seller)->quantity = 0;
+    (*top_seller)->name[0] = '\0';
+    (*top_seller)->next = NULL;
+
+    *listStaff = (struct Staff*)malloc(sizeof(struct Staff));
+    (*listStaff)->totalBill = 0;
+    (*listStaff)->revenue = 0;
+    (*listStaff)->name[0] = '\0';
+    (*listStaff)->next = NULL;
+
+    *listBill = (struct Bill*)malloc(sizeof(struct Bill));
+    (*listBill)->listDish = NULL;
+    (*listBill)->totalPrice = 0;
+    (*listBill)->nameStaff[0] = '\0';
+    (*listBill)->next = NULL;
+    
+    *restaurant = (struct Table*)malloc(sizeof(struct Table));
+    (*restaurant)->id = 0;
+    (*restaurant)->status = 0;
+    (*restaurant)->bill = NULL;
+    (*restaurant)->next = NULL;
+    struct Table* current = *restaurant;
+    for (int i = 1; i <= 10; i++) {
+        struct Table* newTable = (struct Table*)malloc(sizeof(struct Table));
+        newTable->id = i;
+        newTable->status = 0;
+        newTable->bill = NULL;
+        newTable->next = NULL;
+        current->next = newTable;
+        current = newTable;
+    }
+    
+    *menu = (struct Menu*)malloc(sizeof(struct Menu));
+    (*menu)->next = NULL;
+    (*menu)->name[0] = '\0';
+    (*menu)->price = 0;
+    (*menu)->point = 0;
+    // Khai vị
+    add_menu(menu, "goi cuon", 300000, 15);        // Nhẹ nhàng, tươi mát
+    add_menu(menu, "salad", 300000, 21);           // Nhẹ nhàng, tươi mát
+    add_menu(menu, "tempura tom", 300000, 29);     // Hương đậm đà
+    add_menu(menu, "cha gio", 300000, 34);         // Hương đậm đà
+    add_menu(menu, "banh kimchi", 300000, 39);     // Hương đậm đà
+    // Món chính
+    add_menu(menu, "mi hai san", 300000, 41);      // Thanh nhẹ, tinh tế
+    add_menu(menu, "sushi", 300000, 54);           // Thanh nhẹ, tinh tế
+    add_menu(menu, "tom nuong", 300000, 62);       // Đậm đà, no lâu
+    add_menu(menu, "pho bo", 300000, 70);          // Đậm đà, no lâu
+    add_menu(menu, "bit tet", 300000, 81);         // Đậm đà, no lâu
+    // Tráng miệng
+    add_menu(menu, "kem chanh", 300000, 9);        // Ngọt nhẹ, giải nhiệt
+    add_menu(menu, "che Thai", 300000, 12);        // Ngọt nhẹ, giải nhiệt
+    add_menu(menu, "bingsu hoa qua", 300000, 15);  // Béo ngậy, đậm vị
+    add_menu(menu, "kem match", 300000, 18);       // Béo ngậy, đậm vị
+    add_menu(menu, "tiramisu", 300000, 22);        // Béo ngậy, đậm vị
+    // Combo
+    add_menu(menu, "combo 2 nguoi", 1500000, 100);
+    add_menu(menu, "combo 3 nguoi", 2300000, 100);
+    add_menu(menu, "combo 5 nguoi", 3500000, 100);
+}
+
+void initData(struct Top_seller* top_seller, struct Staff* listStaff, struct Bill*  listBill, int* totalRevenue) {
+    
+    char topSeller[3][100] = {"bit tet", "goi cuon", "kem chanh"};
+    int quantity[3] = {54, 43, 34};
+    struct Top_seller* ptr = top_seller;
+    for (int i=0; i<3; i++) {
+        struct Top_seller* dish = (struct Top_seller*)malloc(sizeof(struct Top_seller));
+        strcpy(dish->name, topSeller[i]);
+        dish->quantity = quantity[i];
+        dish->next = NULL;
+        
+        ptr->next = dish;
+        ptr = ptr->next;
+        *totalRevenue += quantity[i] * 300000;
+    }
+    
+    char staff[3][100] = {"van thanh", "quang minh", "nhat thien"};
+    int revenue[3] = {21600, 7200, 5400};
+    int totalBill[3] = {12, 4, 3};
+    struct Staff* ptr2 = listStaff;
+    for (int i=0; i<3; i++) {
+        struct Staff* thisStaff = (struct Staff*)malloc(sizeof(struct Staff));
+        strcpy(thisStaff->name, staff[i]);
+        thisStaff->revenue = revenue[i];
+        thisStaff->totalBill = totalBill[i];
+        thisStaff->next = NULL;
+        
+        ptr2->next = thisStaff;
+        ptr2 = ptr2->next;
+    }
+    
+    struct Bill* ptr3 = listBill;
+    for (int i=0; i<19; i++) {
+        struct Bill* b = (struct Bill*)malloc(sizeof(struct Bill));
+        struct Dish_ordered* tmp = (struct Dish_ordered*)malloc(sizeof(struct Dish_ordered));
+        tmp->quantity = 2;
+        b->listDish = tmp;
+        strcpy(b->nameStaff, "nhan vien ao");
+        b->totalPrice = 1800;
+        b->next = NULL;
+        
+        ptr3->next = b;
+        ptr3 = ptr3->next;
+    }
+}
+
 void add_menu(struct Menu** head, const char* name, int price, int point) {
     struct Menu* newNode = (struct Menu*)malloc(sizeof(struct Menu));
     strncpy(newNode->name, name, 99);
@@ -78,62 +188,6 @@ void add_menu(struct Menu** head, const char* name, int price, int point) {
         temp = temp->next;
     }
     temp->next = newNode;
-}
-
-struct Menu* init_menu(void) {
-    struct Menu* head = (struct Menu*)malloc(sizeof(struct Menu));
-    head->next = NULL;
-    head->name[0] = '\0';
-    head->price = 0;
-    head->point = 0;
-
-    // Khai vị
-    add_menu(&head, "goi cuon", 300000, 15);        // Nhẹ nhàng, tươi mát
-    add_menu(&head, "salad", 300000, 21);           // Nhẹ nhàng, tươi mát
-    add_menu(&head, "tempura tom", 300000, 29);     // Hương đậm đà
-    add_menu(&head, "cha gio", 300000, 34);         // Hương đậm đà
-    add_menu(&head, "banh kimchi", 300000, 39);     // Hương đậm đà
-    // Món chính
-    add_menu(&head, "mi hai san", 300000, 41);      // Thanh nhẹ, tinh tế
-    add_menu(&head, "sushi", 300000, 54);           // Thanh nhẹ, tinh tế
-    add_menu(&head, "tom nuong", 300000, 62);       // Đậm đà, no lâu
-    add_menu(&head, "pho bo", 300000, 70);          // Đậm đà, no lâu
-    add_menu(&head, "bit tet", 300000, 81);         // Đậm đà, no lâu
-    // Tráng miệng
-    add_menu(&head, "kem chanh", 300000, 9);        // Ngọt nhẹ, giải nhiệt
-    add_menu(&head, "che Thai", 300000, 12);        // Ngọt nhẹ, giải nhiệt
-    add_menu(&head, "bingsu hoa qua", 300000, 15);  // Béo ngậy, đậm vị
-    add_menu(&head, "kem match", 300000, 18);       // Béo ngậy, đậm vị
-    add_menu(&head, "tiramisu", 300000, 22);        // Béo ngậy, đậm vị
-    // Combo
-    add_menu(&head, "combo 2 nguoi", 1500000, 100);
-    add_menu(&head, "combo 3 nguoi", 2300000, 100);
-    add_menu(&head, "combo 5 nguoi", 3500000, 100);
-
-    return head;
-}
-
-struct Table* init_restaurant(void) {
-    struct Table* head = (struct Table*)malloc(sizeof(struct Table));
-    head->id = 0;
-    head->status = 0;
-    head->bill = NULL;
-    head->next = NULL;
-
-    struct Table* current = head;
-
-    for (int i = 1; i <= 10; i++) {
-        struct Table* newTable = (struct Table*)malloc(sizeof(struct Table));
-        newTable->id = i;
-        newTable->status = 0;
-        newTable->bill = NULL;
-        newTable->next = NULL;
-
-        current->next = newTable;
-        current = newTable;
-    }
-
-    return head;
 }
 
 struct Table* search_table(struct Table* restaurant, int id) {

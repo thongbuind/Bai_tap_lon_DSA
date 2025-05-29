@@ -13,9 +13,9 @@ void nhap_so_nguyen(int* soKetQua); // thành viên 1
 void nhap_chuoi(char* ketQua); // thành viên 1
 void to_lowercase_no_accent(char *str); // thành viên 1
 void to_lowercase(char *str); // thành viên 1
+void initStructure(struct Top_seller** top_seller, struct Staff** listStaff, struct Bill** listBill, struct Table** restaurant, struct Menu** menu); // thành viên 1
+void initData(struct Top_seller* top_seller, struct Staff* listStaff, struct Bill*  listBill, int* totalRevenue); // Thông
 void add_menu(struct Menu** head, const char* name, int price, int point); // thành viên 1
-struct Menu* init_menu(void); // thành viên 1
-struct Table* init_restaurant(void); // thành viên 1
 struct Table* search_table(struct Table* restaurant, int id); // thành viên 2
 void add_dish_to_bill(struct Bill* bill, char* dishName, int price, int quantity); // thành viên 2
 struct Menu* search_dish(struct Menu* menu, char* dishName); // thành viên 2

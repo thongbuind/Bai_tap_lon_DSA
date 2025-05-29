@@ -16,35 +16,18 @@
 struct Top_seller* top_seller = NULL;
 struct Staff* listStaff = NULL;
 struct Bill* listBill = NULL;
+struct Table* restaurant = NULL;
+struct Menu* menu = NULL;
 
-void initStructure(void) {
-    top_seller = (struct Top_seller*)malloc(sizeof(struct Top_seller));
-    top_seller->quantity = 0;
-    top_seller->name[0] = '\0';
-    top_seller->next = NULL;
+int totalRevenue = 0;
+int luaChon = 0;
+char nameStaff[100];
 
-    listStaff = (struct Staff*)malloc(sizeof(struct Staff));
-    listStaff->totalBill = 0;
-    listStaff->revenue = 0;
-    listStaff->name[0] = '\0';
-    listStaff->next = NULL;
 
-    listBill = (struct Bill*)malloc(sizeof(struct Bill));
-    listBill->listDish = NULL;
-    listBill->totalPrice = 0;
-    listBill->nameStaff[0] = '\0';
-    listBill->next = NULL;
-}
 
 int main(void) {
-    struct Table* restaurant = init_restaurant();
-    struct Menu* menu = init_menu();
-    
-    initStructure();
-    
-    int totalRevenue = 0;
-    int luaChon = 0;
-    char nameStaff[100];
+    initStructure(&top_seller, &listStaff, &listBill, &restaurant, &menu);
+    initData(top_seller, listStaff, listBill, &totalRevenue);
 
     while (1) {
         interface_0();
