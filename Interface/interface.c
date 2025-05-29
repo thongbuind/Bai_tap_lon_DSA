@@ -48,6 +48,64 @@ void inDongGiua(const char* noiDung) {
     printf("║%*s%s%*s║\n", padding, "", noiDung, padding + ((WIDTH - len) % 2), "");
 }
 
+void inDongCanTrai(const char* text) {
+    int width = WIDTH - 4;  // Trừ đi 2 viền (2 ký tự) và 2 khoảng trắng hai bên
+    char line[WIDTH * 4];   // Buffer với kích thước lớn hơn để xử lý UTF-8 (mỗi ký tự tối đa 4 byte)
+    line[0] = '\0';         // Khởi tạo chuỗi rỗng
+    int line_visible_len = 0;  // Độ dài hiển thị (số ký tự thực sự)
+    
+    // Tạo bản sao vì strtok() thay đổi chuỗi
+    char temp[1000];
+    strcpy(temp, text);
+    
+    // Tách từng từ
+    const char* delim = " ";
+    char* word = strtok(temp, delim);
+    
+    while (word != NULL) {
+        int word_visible_len = utf8_char_length(word);
+        int space_needed = (line_visible_len > 0) ? 1 : 0;  // Cần thêm dấu cách nếu không phải từ đầu dòng
+        
+        // Nếu thêm từ mới sẽ vượt quá độ rộng dòng, in dòng hiện tại và bắt đầu dòng mới
+        if (line_visible_len + word_visible_len + space_needed > width) {
+            // Thêm khoảng trắng vào cuối dòng để đạt đủ độ rộng
+            int spaces_to_add = width - line_visible_len;
+            for (int i = 0; i < spaces_to_add; i++) {
+                strcat(line, " ");
+            }
+            
+            // In dòng đã đầy
+            printf("║ %s ║\n", line);
+            
+            // Bắt đầu dòng mới với từ hiện tại
+            strcpy(line, word);
+            line_visible_len = word_visible_len;
+        } else {
+            // Thêm khoảng trắng nếu không phải từ đầu tiên trong dòng
+            if (line_visible_len > 0) {
+                strcat(line, " ");
+                line_visible_len++;
+            }
+            strcat(line, word);
+            line_visible_len += word_visible_len;
+        }
+        
+        // Lấy từ tiếp theo
+        word = strtok(NULL, delim);
+    }
+    
+    // In dòng cuối cùng còn sót lại
+    if (line_visible_len > 0) {
+        // Thêm khoảng trắng vào cuối dòng để đạt đủ độ rộng
+        int spaces_to_add = width - line_visible_len;
+        for (int i = 0; i < spaces_to_add; i++) {
+            strcat(line, " ");
+        }
+        printf("║ %s ║\n", line);
+    }
+}
+
+
 // Giao diện chính
 void interface_main(void) {
     printf("╔════════════════════════════════════════════════════╗\n");
@@ -104,63 +162,6 @@ void interface_menu(void) {
     printf("║ 3. Xóa món ăn khỏi menu                            ║\n");
     printf("║ 4. Thoát.                                          ║\n");
     printf("╚════════════════════════════════════════════════════╝\n");
-}
-
-void inDongCanTrai(const char* text) {
-    int width = WIDTH - 4;  // Trừ đi 2 viền (2 ký tự) và 2 khoảng trắng hai bên
-    char line[WIDTH * 4];   // Buffer với kích thước lớn hơn để xử lý UTF-8 (mỗi ký tự tối đa 4 byte)
-    line[0] = '\0';         // Khởi tạo chuỗi rỗng
-    int line_visible_len = 0;  // Độ dài hiển thị (số ký tự thực sự)
-    
-    // Tạo bản sao vì strtok() thay đổi chuỗi
-    char temp[1000];
-    strcpy(temp, text);
-    
-    // Tách từng từ
-    const char* delim = " ";
-    char* word = strtok(temp, delim);
-    
-    while (word != NULL) {
-        int word_visible_len = utf8_char_length(word);
-        int space_needed = (line_visible_len > 0) ? 1 : 0;  // Cần thêm dấu cách nếu không phải từ đầu dòng
-        
-        // Nếu thêm từ mới sẽ vượt quá độ rộng dòng, in dòng hiện tại và bắt đầu dòng mới
-        if (line_visible_len + word_visible_len + space_needed > width) {
-            // Thêm khoảng trắng vào cuối dòng để đạt đủ độ rộng
-            int spaces_to_add = width - line_visible_len;
-            for (int i = 0; i < spaces_to_add; i++) {
-                strcat(line, " ");
-            }
-            
-            // In dòng đã đầy
-            printf("║ %s ║\n", line);
-            
-            // Bắt đầu dòng mới với từ hiện tại
-            strcpy(line, word);
-            line_visible_len = word_visible_len;
-        } else {
-            // Thêm khoảng trắng nếu không phải từ đầu tiên trong dòng
-            if (line_visible_len > 0) {
-                strcat(line, " ");
-                line_visible_len++;
-            }
-            strcat(line, word);
-            line_visible_len += word_visible_len;
-        }
-        
-        // Lấy từ tiếp theo
-        word = strtok(NULL, delim);
-    }
-    
-    // In dòng cuối cùng còn sót lại
-    if (line_visible_len > 0) {
-        // Thêm khoảng trắng vào cuối dòng để đạt đủ độ rộng
-        int spaces_to_add = width - line_visible_len;
-        for (int i = 0; i < spaces_to_add; i++) {
-            strcat(line, " ");
-        }
-        printf("║ %s ║\n", line);
-    }
 }
 
 void inKhungGoiY(char* reason, char* result) {

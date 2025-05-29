@@ -167,7 +167,7 @@ void initData(struct Top_seller* top_seller, struct Staff* listStaff, struct Bil
     }
 }
 
-void add_menu(struct Menu** head, const char* name, int price, int point) {
+void add_menu(struct Menu** menu, const char* name, int price, int point) {
     struct Menu* newNode = (struct Menu*)malloc(sizeof(struct Menu));
     strncpy(newNode->name, name, 99);
     newNode->name[99] = '\0';
@@ -175,19 +175,19 @@ void add_menu(struct Menu** head, const char* name, int price, int point) {
     newNode->point = point;
     newNode->next = NULL;
 
-    if (*head == NULL) {
-        *head = (struct Menu*)malloc(sizeof(struct Menu));
-        (*head)->next = NULL;
-        (*head)->name[0] = '\0';
-        (*head)->price = 0;
-        (*head)->point = 0;
+    if (*menu == NULL) {
+        *menu = (struct Menu*)malloc(sizeof(struct Menu));
+        (*menu)->next = NULL;
+        (*menu)->name[0] = '\0';
+        (*menu)->price = 0;
+        (*menu)->point = 0;
     }
 
-    struct Menu* temp = *head;
-    while (temp->next != NULL) {
-        temp = temp->next;
+    struct Menu* ptr = *menu;
+    while (ptr->next != NULL) {
+        ptr = ptr->next;
     }
-    temp->next = newNode;
+    ptr->next = newNode;
 }
 
 struct Table* search_table(struct Table* restaurant, int id) {
