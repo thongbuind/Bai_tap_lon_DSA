@@ -137,10 +137,10 @@ void interface_sua_hoa_don(int table_id) {
     printf("╔════════════════════════════════════════════════════╗\n");
     inDongGiua(tieuDe);
     printf("╠════════════════════════════════════════════════════╣\n");
-    inDongGiua("1. Thêm món");
-    inDongGiua("2. Xóa món");
-    inDongGiua("3. Sửa số lượng món");
-    inDongGiua("4. Thoát");
+    inDongCanTrai("1. Thêm món");
+    inDongCanTrai("2. Xóa món");
+    inDongCanTrai("3. Sửa số lượng món");
+    inDongCanTrai("4. Thoát");
     printf("╚════════════════════════════════════════════════════╝\n");
     printf("Nhập lựa chọn: ");
 }

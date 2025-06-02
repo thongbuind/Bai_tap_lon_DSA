@@ -3,10 +3,13 @@
 void display_dish_list(struct Bill* bill) {
     printf("╔══════════════════════════════════════════════════════╗\n");
     printf("║ Danh sách món trong hóa đơn                          ║\n");
-    printf("║ %-20s %-10s ║\n", "Tên món", "Số lượng");
+    printf("║ %-45s %-10s ║\n", "Tên món", "Số lượng");
     printf("╠══════════════════════════════════════════════════════╣\n");
-    
-
+    struct Dish_ordered* dish = bill->listDish->next;
+    while (dish != NULL) {
+        printf("║ %-42s ║    %-4d ║\n", dish->name, dish->quantity);
+        dish = dish->next;
+    }
     printf("╚══════════════════════════════════════════════════════╝\n");
 }
 
@@ -99,6 +102,7 @@ void chuc_nang_sua_hoa_don(struct Table* restaurant, struct Menu* menu, struct T
                             inThongBao("Số lượng phải lớn hơn 0!");
                             break;
                         }
+                        current->quantity = quantity;
                         inThongBao("Sửa số lượng món %s thành công!", dishName);
                         break;
                     }

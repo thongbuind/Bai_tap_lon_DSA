@@ -204,6 +204,17 @@ struct Table* search_table(struct Table* restaurant, int id) {
 
 void add_dish_to_bill(struct Bill* bill, char* nameDish, int price, int quantity) {
     struct Dish_ordered* newDish = (struct Dish_ordered*)malloc(sizeof(struct Dish_ordered));
+    
+    struct Dish_ordered* ptr2 = bill->listDish;
+    while (ptr2 != NULL) {
+        if (strcmp(ptr2->name, nameDish) == 0) {
+            ptr2->quantity += quantity;
+            bill->totalPrice += price * quantity;
+            return; // Đã cập nhật xong, không cần thêm mới
+        }
+        ptr2 = ptr2->next;
+    }
+    
     int i = 0;
     while (nameDish[i] != '\0') {
         newDish->name[i] = nameDish[i];

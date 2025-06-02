@@ -56,8 +56,7 @@ int main(void) {
                         chuc_nang_them_hoa_don(restaurant, menu, top_seller);
                         break;
                     case 2:
-                        inThongBao("coming soon...");
-                        //chuc_nang_sua_hoa_don(restaurant, menu);
+                        chuc_nang_sua_hoa_don(restaurant, menu, top_seller);
                         break;
                     case 3:
                         chuc_nang_thanh_toan(restaurant, menu, top_seller, thisStaff, listBill, &totalRevenue);
