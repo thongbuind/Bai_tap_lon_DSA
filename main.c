@@ -23,8 +23,6 @@ int totalRevenue = 0;
 int luaChon = 0;
 char nameStaff[100];
 
-
-
 int main(void) {
     initStructure(&top_seller, &listStaff, &listBill, &restaurant, &menu);
     initData(top_seller, listStaff, listBill, &totalRevenue);

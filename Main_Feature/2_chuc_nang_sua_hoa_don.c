@@ -16,6 +16,7 @@ void display_dish_list(struct Bill* bill) {
 void chuc_nang_sua_hoa_don(struct Table* restaurant, struct Menu* menu, struct Top_seller* top_seller) {
     int table_id = 0;
     struct Table* table = NULL;
+    // nhap thong tin bàn cần sửa hoá đơn
     do {
         printf("Chỉnh sửa hoá đơn ở bàn số: ");
         nhap_so_nguyen(&table_id);
@@ -116,7 +117,7 @@ void chuc_nang_sua_hoa_don(struct Table* restaurant, struct Menu* menu, struct T
                 inThongBao("Đã thoát chỉnh sửa hóa đơn.");
                 return;
             default:
-                inThongBao("Lựa chọn không hợp lệ, vui lòng nhập lại!");
+                inThongBao("Lựa chọn k4hông hợp lệ, vui lòng nhập lại!");
                 break;
         }
     }

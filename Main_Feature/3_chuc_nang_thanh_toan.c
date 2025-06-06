@@ -10,6 +10,7 @@ void chuc_nang_thanh_toan(struct Table* restaurant, struct Menu* menu, struct To
         if (table_id == 0) {
             inThongBao("Đã hủy thanh toán.");
             return;
+            
         }
         if (table_id < 1 || table_id > 10) {
             inThongBao("Bàn không tồn tại, vui lòng nhập lại!");

@@ -47,7 +47,7 @@ void tinh_nang_goi_y(struct Table* table, struct Menu* menu, struct Top_seller* 
         if (nums_dish >= 3) {
             // Kiểm tra xem có món chính (point > 40) trong danh sách món đã gọi hay không
             int has_main_dish = 0;
-            struct Dish_ordered* current_dish = listDish->next; // Bỏ qua node đầu (giả sử là node giả)
+            struct Dish_ordered* current_dish = listDish->next;
             while (current_dish != NULL) {
                 if (get_point(menu, current_dish->name) > 40) {
                     has_main_dish = 1;
@@ -108,14 +108,14 @@ void tinh_nang_goi_y(struct Table* table, struct Menu* menu, struct Top_seller* 
             strcpy(result, temp_result);
             strcpy(reason, "Vì bạn đã gọi 2 món nên chúng tôi đề xuất thêm 1 món thứ 3 để đảm bảo sự hoàn thiện của bữa ăn.");
         } else if (nums_dish == 1) {
-            int best_point = 100 - total_point; // Mục tiêu tổng point của hai món
+            int best_point = 100 - total_point;
             struct Menu* m = menu;
             char dish1[100] = "", dish2[100] = "";
-            int tmp = 999; // Độ chênh lệch nhỏ nhất
+            int tmp = 999;
 
             // Duyệt tất cả các cặp món ăn
             while (m != NULL) {
-                struct Menu* m2 = m->next; // Bắt đầu từ món tiếp theo để tránh trùng
+                struct Menu* m2 = m->next;
                 while (m2 != NULL) {
                     if (m->name[0] != '\0' && m2->name[0] != '\0' &&
                         !is_dish_ordered(listDish, m->name) &&
@@ -134,7 +134,6 @@ void tinh_nang_goi_y(struct Table* table, struct Menu* menu, struct Top_seller* 
                 m = m->next;
             }
 
-            // Gán kết quả và lý do
             snprintf(result, sizeof(result), "%s và %s", dish1, dish2);
             if (total_point >= 40) {
                 strcpy(reason, "Vì bạn đã gọi một món chính khá đậm đà, no lâu nên chúng tôi đề xuất món khai vị và tráng miệng như sau.");
@@ -147,21 +146,28 @@ void tinh_nang_goi_y(struct Table* table, struct Menu* menu, struct Top_seller* 
             int point_bestseller = get_point(menu, bestseller->name);
             int remaining = 100 - point_bestseller;
             
-            // Tìm 2 món khác sao cho tổng gần nhất với remaining
-            int best_point = 0;
-            char dish1[100] = "", dish2[100] = "";
-            struct Menu* m1 = menu;
+            int best_diff = 999;
+            char dish1[100] = "";
+            char dish2[100] = "";
+            struct Menu* m1 = menu->next;
             while (m1 != NULL) {
+                if (strcmp(m1->name, bestseller->name) == 0 || is_dish_ordered(listDish, m1->name)) {
+                    m1 = m1->next;
+                    continue;
+                }
                 int p1 = m1->point;
-                struct Menu* m2 = menu;
+                struct Menu* m2 = menu->next;
                 while (m2 != NULL) {
+                    if (m2 == m1 || strcmp(m2->name, bestseller->name) == 0 ||
+                        is_dish_ordered(listDish, m2->name) || strcmp(m1->name, m2->name) == 0) {
+                        m2 = m2->next;
+                        continue;
+                    }
                     int p2 = m2->point;
-                    if ((p1 + p2 <= remaining) && (p1 + p2 > best_point) &&
-                        strcmp(m1->name, bestseller->name) != 0 &&
-                        strcmp(m2->name, bestseller->name) != 0 &&
-                        !is_dish_ordered(listDish, m1->name) &&
-                        !is_dish_ordered(listDish, m2->name)) {
-                        best_point = p1 + p2;
+                    int total = p1 + p2;
+                    int diff = abs(total - remaining);
+                    if (diff < best_diff) {
+                        best_diff = diff;
                         strcpy(dish1, m1->name);
                         strcpy(dish2, m2->name);
                     }
@@ -170,12 +176,9 @@ void tinh_nang_goi_y(struct Table* table, struct Menu* menu, struct Top_seller* 
                 m1 = m1->next;
             }
             
-            // Kết quả gợi ý
             snprintf(result, sizeof(result), "%s, %s, %s", bestseller->name, dish1, dish2);
             strcpy(reason, "Vì bạn chưa gọi món nào, nên chúng tôi đề xuất 1 món Bestseller của quán, đi kèm là 2 món khai vị và tráng miệng phù hợp.");
         }
-
-        // In khung kết quả
         inKhungGoiY(reason, result);
     } else {
         // Ứng dụng thuật toán tham lam

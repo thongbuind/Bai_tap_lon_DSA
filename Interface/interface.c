@@ -2,6 +2,7 @@
 
 #define WIDTH 54
 
+// đếm số kí tự trong chuỗi
 int utf8_char_length(const char* str) {
     int length = 0;
     while (*str) {

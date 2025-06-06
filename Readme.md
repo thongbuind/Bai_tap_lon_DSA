@@ -1,3 +1,5 @@
+## Video Youtube Báo cáo: https://www.youtube.com/watch?v=fSvEqnTug0w
+## Link pdf Báo cáo(bản đẹp mộng mơ): https://drive.google.com/file/d/1Uz3gQ6SgwnJxrre8EykzUzPvjjqHGooS/view?usp=drive_link
 ## MỤC LỤC
 
 | Phần | Nội dung                                     | Trang |

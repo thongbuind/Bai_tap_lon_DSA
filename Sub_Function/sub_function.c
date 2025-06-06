@@ -1,62 +1,5 @@
 #include "sub_function.h"
 
-void nhap_so_nguyen(int* soKetQua) {
-    int ketQua;
-    char kyTuDu;
-    
-    while (1) {
-        if (scanf("%d%c", &ketQua, &kyTuDu) == 2 && kyTuDu == '\n') {
-            *soKetQua = ketQua;
-            break;
-        } else {
-            printf("❌ Sai định dạng, vui lòng nhập lại: ");
-            while (getchar() != '\n');
-        }
-    }
-}
-
-void nhap_chuoi(char* ketQua) {
-    int hopLe;
-    int i;
-    char c = '\0';
-    do {
-        hopLe = 0;
-        i = 0;
-        while (i < 99) {
-            c = getchar();
-            if (c == '\n') break;
-            ketQua[i++] = c;
-        }
-        ketQua[i] = '\0';
-        if (c != '\n') {
-            while ((c = getchar()) != '\n' && c != EOF);
-        }
-        for (int j = 0; j < i; j++) {
-            if (ketQua[j] != ' ') {
-                hopLe = 1;
-                break;
-            }
-        }
-        if (!hopLe) {
-            printf("❌ Chuỗi không được để trống. Nhập lại: ");
-        }
-    } while (!hopLe);
-}
-
-// Hàm chuyển chuỗi thành chữ thường và loại bỏ dấu
-void to_lowercase_no_accent(char *str) {
-    for (int i = 0; str[i] != '\0'; i++) {
-        str[i] = tolower(str[i]);
-    }
-}
-
-// Hàm chuyển chuỗi thành chữ thường (không loại bỏ dấu)
-void to_lowercase(char *str) {
-    for (int i = 0; str[i] != '\0'; i++) {
-        str[i] = tolower(str[i]);
-    }
-}
-
 void initStructure(struct Top_seller** top_seller, struct Staff** listStaff, struct Bill** listBill, struct Table** restaurant, struct Menu** menu) {
     
     *top_seller = (struct Top_seller*)malloc(sizeof(struct Top_seller));
@@ -113,58 +56,12 @@ void initStructure(struct Top_seller** top_seller, struct Staff** listStaff, str
     add_menu(menu, "kem chanh", 300000, 9);        // Ngọt nhẹ, giải nhiệt
     add_menu(menu, "che Thai", 300000, 12);        // Ngọt nhẹ, giải nhiệt
     add_menu(menu, "bingsu hoa qua", 300000, 15);  // Béo ngậy, đậm vị
-    add_menu(menu, "kem match", 300000, 18);       // Béo ngậy, đậm vị
+    add_menu(menu, "kem matcha", 300000, 18);       // Béo ngậy, đậm vị
     add_menu(menu, "tiramisu", 300000, 22);        // Béo ngậy, đậm vị
     // Combo
     add_menu(menu, "combo 2 nguoi", 1500000, 100);
     add_menu(menu, "combo 3 nguoi", 2300000, 100);
     add_menu(menu, "combo 5 nguoi", 3500000, 100);
-}
-
-void initData(struct Top_seller* top_seller, struct Staff* listStaff, struct Bill*  listBill, int* totalRevenue) {
-    
-    char topSeller[3][100] = {"bit tet", "goi cuon", "kem chanh"};
-    int quantity[3] = {54, 43, 34};
-    struct Top_seller* ptr = top_seller;
-    for (int i=0; i<3; i++) {
-        struct Top_seller* dish = (struct Top_seller*)malloc(sizeof(struct Top_seller));
-        strcpy(dish->name, topSeller[i]);
-        dish->quantity = quantity[i];
-        dish->next = NULL;
-        
-        ptr->next = dish;
-        ptr = ptr->next;
-        *totalRevenue += quantity[i] * 300000;
-    }
-    
-    char staff[3][100] = {"van thanh", "quang minh", "nhat thien"};
-    int revenue[3] = {21600, 7200, 5400};
-    int totalBill[3] = {12, 4, 3};
-    struct Staff* ptr2 = listStaff;
-    for (int i=0; i<3; i++) {
-        struct Staff* thisStaff = (struct Staff*)malloc(sizeof(struct Staff));
-        strcpy(thisStaff->name, staff[i]);
-        thisStaff->revenue = revenue[i];
-        thisStaff->totalBill = totalBill[i];
-        thisStaff->next = NULL;
-        
-        ptr2->next = thisStaff;
-        ptr2 = ptr2->next;
-    }
-    
-    struct Bill* ptr3 = listBill;
-    for (int i=0; i<19; i++) {
-        struct Bill* b = (struct Bill*)malloc(sizeof(struct Bill));
-        struct Dish_ordered* tmp = (struct Dish_ordered*)malloc(sizeof(struct Dish_ordered));
-        tmp->quantity = 2;
-        b->listDish = tmp;
-        strcpy(b->nameStaff, "nhan vien ao");
-        b->totalPrice = 1800;
-        b->next = NULL;
-        
-        ptr3->next = b;
-        ptr3 = ptr3->next;
-    }
 }
 
 void add_menu(struct Menu** menu, const char* name, int price, int point) {
@@ -190,6 +87,99 @@ void add_menu(struct Menu** menu, const char* name, int price, int point) {
     ptr->next = newNode;
 }
 
+void them_mon_vao_menu(struct Menu* menu) {
+    char name[100];
+    int price;
+    int point;
+
+    printf("Nhập tên món mới: ");
+    nhap_chuoi(name);
+    printf("Nhập giá món mới: ");
+    nhap_so_nguyen(&price);
+    printf("Nhập point: ");
+    nhap_so_nguyen(&point);
+
+    struct Menu* newDish = (struct Menu*)malloc(sizeof(struct Menu));
+    strncpy(newDish->name, name, 99);
+    newDish->name[99] = '\0';
+    newDish->price = price;
+    newDish->point = point;
+    newDish->next = NULL;
+
+    if (menu == NULL) {
+        menu = newDish;
+    } else {
+        struct Menu* ptr = menu;
+        while (ptr->next != NULL) {
+            ptr = ptr->next;
+        }
+        ptr->next = newDish;
+    }
+}
+
+void sua_gia_mon_an(struct Menu* menu) {
+    char name[100];
+    int price;
+
+    printf("Nhập tên món cần sửa giá: ");
+    nhap_chuoi(name);
+
+    struct Menu* dish = NULL;
+    dish = search_dish(menu, name);
+
+    if (dish == NULL) {
+        inThongBao("Không có món '%s' trong menu.", name);
+        return;
+    }
+
+    printf("Nhập giá mới cho món ăn: ");
+    nhap_so_nguyen(&price);
+    dish->price = price;
+
+    inThongBao("Giá của '%s' đã được sửa thành %d VND.", name, price);
+}
+
+void xoa_mon_an_khoi_menu(struct Menu* menu) {
+    char name[100];
+
+    printf("Nhập tên món c12ần xoá: ");
+    nhap_chuoi(name);
+
+    struct Menu* dish = NULL;
+    dish = search_dish(menu, name);
+
+    if (dish == NULL) {
+        inThongBao("Không có món '%s' trong menu.", name);
+        return;
+    }
+
+    if (dish->next == NULL) {
+        // nếu món ăn ở cuối danh sách
+        if (dish == menu) {
+            menu = NULL;
+        } else {
+            struct Menu* prev = menu;
+            while (prev->next != dish) {
+                prev = prev->next;
+            }
+            prev->next = NULL;
+        }
+        free(dish);
+    } else { // xoá bằng cách gián tiếp
+        
+        struct Menu* nextNode = dish->next;
+
+        strcpy(dish->name, nextNode->name);
+        dish->price = nextNode->price;
+        
+        dish->next = nextNode->next;
+        
+        free(nextNode);
+    }
+
+    inThongBao("Món '%s' đã được xoá khỏi Menu.", name);
+}
+
 struct Table* search_table(struct Table* restaurant, int id) {
     if (restaurant == NULL) return NULL;
     struct Table* current = restaurant->next;
@@ -203,17 +193,18 @@ struct Table* search_table(struct Table* restaurant, int id) {
 }
 
 void add_dish_to_bill(struct Bill* bill, char* nameDish, int price, int quantity) {
-    struct Dish_ordered* newDish = (struct Dish_ordered*)malloc(sizeof(struct Dish_ordered));
     
     struct Dish_ordered* ptr2 = bill->listDish;
     while (ptr2 != NULL) {
         if (strcmp(ptr2->name, nameDish) == 0) {
             ptr2->quantity += quantity;
             bill->totalPrice += price * quantity;
-            return; // Đã cập nhật xong, không cần thêm mới
+            return;
         }
         ptr2 = ptr2->next;
     }
+    
+    struct Dish_ordered* newDish = (struct Dish_ordered*)malloc(sizeof(struct Dish_ordered));
     
     int i = 0;
     while (nameDish[i] != '\0') {
@@ -294,95 +285,6 @@ void order_dish(struct Table* table, struct Menu* menu, struct Bill* bill, struc
         add_dish_to_bill(bill, name_dish, price, quantity);
         inThongBao("Đã thêm %s x%d (%d VND/món)", name_dish, quantity, price);
     }
-}
-
-void them_mon_vao_menu(struct Menu* menu) {
-    char name[100];
-    int price;
-    int point;
-
-    printf("Nhập tên món mới: ");
-    nhap_chuoi(name);
-    printf("Nhập giá món mới: ");
-    nhap_so_nguyen(&price);
-    printf("Nhập point: ");
-    nhap_so_nguyen(&point);
-
-    struct Menu* newDish = (struct Menu*)malloc(sizeof(struct Menu));
-    strncpy(newDish->name, name, 99);
-    newDish->name[99] = '\0';
-    newDish->price = price;
-    newDish->point = point;
-    newDish->next = NULL;
-
-    if (menu == NULL) {
-        menu = newDish;
-    } else {
-        struct Menu* ptr = menu;
-        while (ptr->next != NULL) {
-            ptr = ptr->next;
-        }
-        ptr->next = newDish;
-    }
-}
-
-void sua_gia_mon_an(struct Menu* menu) {
-    char name[100];
-    int price;
-
-    printf("Nhập tên món cần sửa giá: ");
-    nhap_chuoi(name);
-
-    struct Menu* dish = NULL;
-    dish = search_dish(menu, name);
-
-    if (dish == NULL) {
-        inThongBao("Không có món '%s' trong menu.", name);
-        return;
-    }
-
-    printf("Nhập giá mới cho món ăn: ");
-    nhap_so_nguyen(&price);
-    dish->price = price;
-
-    inThongBao("Giá của '%s' đã được sửa thành %d VND.", name, price);
-}
-
-void xoa_mon_an_khoi_menu(struct Menu* menu) {
-    char name[100];
-
-    printf("Nhập tên món cần xoá: ");
-    nhap_chuoi(name);
-
-    struct Menu* dish = NULL;
-    dish = search_dish(menu, name);
-
-    if (dish == NULL) {
-        inThongBao("Không có món '%s' trong menu.", name);
-        return;
-    }
-
-    if (dish->next == NULL) {
-        if (dish == menu) {
-            menu = NULL;
-        } else {
-            struct Menu* prev = menu;
-            while (prev->next != dish) {
-                prev = prev->next;
-            }
-            prev->next = NULL;
-        }
-        free(dish);
-    } else {
-        struct Menu* nextNode = dish->next;
-        strcpy(dish->name, nextNode->name);
-        dish->price = nextNode->price;
-        dish->next = nextNode->next;
-
-        free(nextNode);
-    }
-
-    inThongBao("Món '%s' đã được xoá khỏi Menu.", name);
 }
 
 void push_to_top_seller_list(struct Top_seller** head, char* name, int quantity) {
@@ -497,5 +399,108 @@ void free_bill(struct Bill* listBill) {
             free(dish_temp);
         }
         free(temp);
+    }
+}
+
+void initData(struct Top_seller* top_seller, struct Staff* listStaff, struct Bill*  listBill, int* totalRevenue) {
+    
+    char topSeller[3][100] = {"bit tet", "goi cuon", "kem chanh"};
+    int quantity[3] = {54, 43, 34};
+    struct Top_seller* ptr = top_seller;
+    for (int i=0; i<3; i++) {
+        struct Top_seller* dish = (struct Top_seller*)malloc(sizeof(struct Top_seller));
+        strcpy(dish->name, topSeller[i]);
+        dish->quantity = quantity[i];
+        dish->next = NULL;
+        
+        ptr->next = dish;
+        ptr = ptr->next;
+        *totalRevenue += quantity[i] * 300000;
+    }
+    
+    char staff[3][100] = {"van thanh", "quang minh", "nhat thien"};
+    int revenue[3] = {21600, 7200, 5400};
+    int totalBill[3] = {12, 4, 3};
+    struct Staff* ptr2 = listStaff;
+    for (int i=0; i<3; i++) {
+        struct Staff* thisStaff = (struct Staff*)malloc(sizeof(struct Staff));
+        strcpy(thisStaff->name, staff[i]);
+        thisStaff->revenue = revenue[i];
+        thisStaff->totalBill = totalBill[i];
+        thisStaff->next = NULL;
+        
+        ptr2->next = thisStaff;
+        ptr2 = ptr2->next;
+    }
+    
+    struct Bill* ptr3 = listBill;
+    for (int i=0; i<19; i++) {
+        struct Bill* b = (struct Bill*)malloc(sizeof(struct Bill));
+        struct Dish_ordered* tmp = (struct Dish_ordered*)malloc(sizeof(struct Dish_ordered));
+        tmp->quantity = 2;
+        b->listDish = tmp;
+        strcpy(b->nameStaff, "nhan vien ao");
+        b->totalPrice = 1800;
+        b->next = NULL;
+        
+        ptr3->next = b;
+        ptr3 = ptr3->next;
+    }
+}
+
+void nhap_so_nguyen(int* soKetQua) {
+    int ketQua;
+    char kyTuDu;
+    
+    while (1) {
+        if (scanf("%d%c", &ketQua, &kyTuDu) == 2 && kyTuDu == '\n') {
+            *soKetQua = ketQua;
+            break;
+        } else {
+            printf("❌ Sai định dạng, vui lòng nhập lại: ");
+            while (getchar() != '\n');
+        }
+    }
+}
+
+void nhap_chuoi(char* ketQua) {
+    int hopLe;
+    int i;
+    char c = '\0';
+    do {
+        hopLe = 0;
+        i = 0;
+        while (i < 99) {
+            c = getchar();
+            if (c == '\n') break;
+            ketQua[i++] = c;
+        }
+        ketQua[i] = '\0';
+        if (c != '\n') {
+            while ((c = getchar()) != '\n' && c != EOF);
+        }
+        for (int j = 0; j < i; j++) {
+            if (ketQua[j] != ' ') {
+                hopLe = 1;
+                break;
+            }
+        }
+        if (!hopLe) {
+            printf("❌ Chuỗi không được để trống. Nhập lại: ");
+        }
+    } while (!hopLe);
+}
+
+// Hàm chuyển chuỗi thành chữ thường và loại bỏ dấu
+void to_lowercase_no_accent(char *str) {
+    for (int i = 0; str[i] != '\0'; i++) {
+        str[i] = tolower(str[i]);
+    }
+}
+
+// Hàm chuyển chuỗi thành chữ thường (không loại bỏ dấu)
+void to_lowercase(char *str) {
+    for (int i = 0; str[i] != '\0'; i++) {
+        str[i] = tolower(str[i]);
     }
 }
